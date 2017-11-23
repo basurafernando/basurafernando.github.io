@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="description" content="Rank pooling for video analysis and human action recognition." />
+<meta name="keywords" content="rank pooling;action recognition;" />
+	<title>Rank pooling for video analysis and human action recognition.</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="header"><h1>Rank pooling for video analysis and human action recognition</h1></div>
+
+<div id="sub_header">Modelling the evolution of appearance.</div>
+
+<div id="main_content_top"></div>
+
+<div id="main_content">
+
+<div class="content">
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9WJjnapt3uU" frameborder="0" allowfullscreen></iframe>
+
+<h2><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Fernando_Modeling_Video_Evolution_2015_CVPR_paper.pdf">Modeling Video Evolution For Action Recognition</a></h2>
+<p>Basura Fernando, Efstratios Gavves, Jose Oramas, Amir Ghodrati and Tinne Tuytelaars<p>
+<p>Conference on Computer Vision and Pattern Recognition CVPR 2015</p>
+<img align="middle" height="200px" src="http://users.cecs.anu.edu.au/~basura/images/Darwin.png" alt="" />
+<p>In this paper we present a method to capture video-wide
+temporal information for action recognition. We postulate
+that a function capable of ordering the frames of a video
+temporally (based on the appearance) captures well the
+evolution of the appearance within the video. We learn such
+ranking functions per video via a ranking machine and use
+the parameters of these as a new video representation. The
+proposed method is easy to interpret and implement, fast to
+compute and effective in recognizing a wide variety of actions.
+We perform a large number of evaluations on datasets
+for generic action recognition (Hollywood2 and HMDB51),
+fine-grained actions (MPII- cooking activities) and gestures
+(Chalearn). Results show that the proposed method brings
+an absolute improvement of 7-10%, while being compatible
+with and complementary to further improvements in appearance
+and local motion based methods</p>
+<p class="quote">Code : <a href="https://bitbucket.org/bfernando/videodarwin">https://bitbucket.org/bfernando/videodarwin</a></p>
+
+<h2><a href="http://users.cecs.anu.edu.au/~basura/papers/PAMI2016Fernando.pdf">Rank Pooling for Action Recognition</a></h2>
+<p>Basura Fernando, Efstratios Gavves, Jose Oramas, Amir Ghodrati and Tinne Tuytelaars</p>
+<p>IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI) 2016</p>
+<img src="http://users.cecs.anu.edu.au/~basura/images/PAMI2016.jpg" alt="" />
+<p>We propose a function-based temporal pooling method that captures the latent structure of the video sequence data - e.g.
+how frame-level features evolve over time in a video. We show how the parameters of a function that has been fit to the video data can
+serve as a robust new video representation. As a specific example, we learn a pooling function via ranking machines. By learning to
+rank the frame-level features of a video in chronological order, we obtain a new representation that captures the video-wide temporal
+dynamics of a video, suitable for action recognition. Other than ranking functions, we explore different parametric models that could
+also explain the temporal changes in videos. The proposed functional pooling methods, and rank pooling in particular, is easy to
+interpret and implement, fast to compute and effective in recognizing a wide variety of actions. We evaluate our method on various
+benchmarks for generic action, fine-grained action and gesture recognition. Results show that rank pooling brings an absolute
+improvement of 7-10 average pooling baseline. At the same time, rank pooling is compatible with and complementary to several
+appearance and local motion based methods and features, such as improved trajectories and deep learning features.</p>
+<p class="quote">Code : <a href="https://bitbucket.org/bfernando/videodarwin">https://bitbucket.org/bfernando/videodarwin</a></p>
+
+<h2><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Bilen_Dynamic_Image_Networks_CVPR_2016_paper.pdf">Dynamic Image Networks for Action Recognition</a></h2>
+<p>Hakan Bilen, Basura Fernando, Efstratios Gavves, Andrea Vedaldi, Stephen Gould</p>
+<p>Conference on Computer Vision and Pattern Recognition CVPR 2016</p>
+<img height=200px src="http://users.cecs.anu.edu.au/~basura/images/dynamic_image.jpg" alt="" />
+<p>We introduce the concept of dynamic image, a novel
+compact representation of videos useful for video analysis
+especially when convolutional neural networks (CNNs)
+are used. The dynamic image is based on the rank pooling
+concept and is obtained through the parameters of a
+ranking machine that encodes the temporal evolution of the
+frames of the video. Dynamic images are obtained by directly
+applying rank pooling on the raw image pixels of a
+video producing a single RGB image per video. This idea
+is simple but powerful as it enables the use of existing CNN
+models directly on video data with fine-tuning. We present
+an efficient and effective approximate rank pooling operator,
+speeding it up orders of magnitude compared to rank
+pooling. Our new approximate rank pooling CNN layer allows
+us to generalize dynamic images to dynamic feature
+maps and we demonstrate the power of our new representations
+on standard benchmarks in action recognition achieving
+state-of-the-art performance.</p>
+<p class="quote">Code : <a href="https://github.com/hbilen/dynamic-image-nets">https://github.com/hbilen/dynamic-image-nets</a></p>
+
+
+<h2><a href="http://jmlr.org/proceedings/papers/v48/fernando16.pdf">Learning End-to-end Video Classification with Rank-Pooling</a></h2>
+<p>Basura Fernando, Stephen Gould</p>
+<p>International Conference on Machine Learning ICML 2016</p>
+<img height=200px src="http://users.cecs.anu.edu.au/~basura/images/cnnnet.png" alt="" />
+<p>We introduce a new model for representation
+learning and classification of video sequences.
+Our model is based on a convolutional neural
+network coupled with a novel temporal pooling
+layer. The temporal pooling layer relies on an
+inner-optimization problem to efficiently encode
+temporal semantics over arbitrarily long video
+clips into a fixed-length vector representation.
+Importantly, the representation and classification
+parameters of our model can be estimated jointly
+in an end-to-end manner by formulating learning
+as a bilevel optimization problem. Furthermore,
+the model can make use of any existing convolutional
+neural network architecture (e.g., AlexNet
+or VGG) without modification or introduction of
+additional parameters. We demonstrate our approach
+on action and activity recognition tasks.</p>
+
+
+<h2><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Fernando_Discriminative_Hierarchical_Rank_CVPR_2016_paper.pdf">Discriminative Hierarchical Rank Pooling for Activity Recognition </a></h2>
+<p>Basura Fernando, Peter Anderson, Marcus Hutter, Stephen Gould</p>
+<p>Conference on Computer Vision and Pattern Recognition CVPR 2016</p>
+<img height=200px src="http://users.cecs.anu.edu.au/~basura/images/HRP.jpg" alt="" />
+<p>We present hierarchical rank pooling, a video sequence
+encoding method for activity recognition. It consists of a
+network of rank pooling functions which captures the dynamics
+of rich convolutional neural network features within
+a video sequence. By stacking non-linear feature functions
+and rank pooling over one another, we obtain a high capacity
+dynamic encoding mechanism, which is used for action
+recognition. We present a method for jointly learning the
+video representation and activity classifier parameters. Our
+method obtains state-of-the art results on three important
+activity recognition benchmarks: 76.7% on Hollywood2,
+66.9% on HMDB51 and, 91.4% on UCF101.</p>
+<p class="quote">Code : <a href="https://bitbucket.org/bfernando/videodarwin/src/12db1d511c4af468ad3201e33b35df417a71eb13/Hierarchical_Rank_Pooling/?at=master">https://bitbucket.org/bfernando/videodarwin</a></p>
+
+
+
+
+
+</div>
+
+<div class="menu">
+<div class="menu_title">Main menu</div>
+<ul>
+<li><a href="https://scholar.google.be/citations?user=GyvseMkAAAAJ&hl=en" class="menu_link">About me</a></li>
+<li><a href="https://cecs.anu.edu.au/people/basura-fernando" class="menu_link">Contact me</a></li>
+</ul>
+<!-- 
+<div class="menu_title">Sub menu</div>
+<ul>
+<li><a href="http://www.pikanai.com" class="menu_link">Pikanai</a></li>
+</ul>
+<div class="menu_title">Friends</div>
+<ul>
+<li><a href="http://www.oswd.org" class="menu_link">OSWD</a></li>
+<li><a href="http://www.opendesigns.org" class="menu_link">Open Designs</a></li>
+</ul> --> 
+</div>
+
+<div id="clear"></div>
+
+</div>
+
+<div id="main_content_bottom">
+</div>
+
+<div id="footer"><strong>Copyright &copy; Basura Fernando 2016</strong> | <a href="#">Rank-pooling</a> | <b>Design by</b> <a href="http://www.pikanai.com">Pikanai.com</a></div>
+
+</div>
+
+</body>
+
+</html>

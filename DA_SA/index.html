@@ -1,0 +1,332 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Unsupervised Visual Domain Adaptation Using Subspace Alignment</title>
+    
+<script language="JavaScript">
+        function ShowHide(divId)
+        {
+            if(document.getElementById(divId).style.display == 'none')
+            {
+                document.getElementById(divId).style.display='block';
+            }
+            else
+            {
+                document.getElementById(divId).style.display = 'none';
+            }
+        }
+        </script>
+
+    
+    <style type="text/css">
+      body { 
+	  font-family: sans-serif; 
+	  background-color: #ddd;
+      }
+
+      body a {
+	  color: #333;
+      }
+      
+      #container {
+	  margin: 40px auto;
+	  padding: 50px;
+	  background-color: #fff;
+	  width: 760px;
+          position: relative;
+      }
+
+     
+
+      span.label {
+	  font-weight: bold;
+	  color: #555;
+      }
+     
+      div.section {
+	  margin-top: 80px;
+      }
+      
+      div.ref {
+	  margin-top: 20px;
+      }
+
+      span.title {
+	  font-weight: bold;
+	  color: #555;
+      }
+	  
+	  span.journal {
+	  font-size: 90%;
+	  color: #555;
+      }
+	  
+	  span.venue {
+	  font-size: 90%;
+	  color: #555;
+      }
+
+      span.authors {
+	  font-size: 90%;
+      }
+
+      span.award {
+	  font-size: 90%;
+	  color: #600;
+      }
+
+     span.link {
+          font-weight: bold;  		
+	  font-size: 90%;
+	  color: #100;
+      }
+
+      div.bibtex { 
+	  display: none;
+	  background-color: #aaa;
+	  margin: 10px;
+	  padding: 5px 20px;
+      }
+	  
+	  table.resultsTable {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #5E5F60;
+	border-collapse: separate;
+	border-spacing: 0px;
+	margin-top:1em;
+	margin-bottom: 1em;
+}
+tr.resultsTableHeader td{
+	color: #FFFFFF;
+	background-color: #000055;
+	border-bottom-color: #DBDCDD;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+}
+	  
+    </style>
+	
+	<body>
+    <div id="container">
+
+			<div id="top">
+      <center><a href="http://openaccess.thecvf.com/content_iccv_2013/papers/Fernando_Unsupervised_Visual_Domain_2013_ICCV_paper.pdf"><h3>Unsupervised Visual Domain Adaptation Using Subspace Alignment<br></a></h3></center>
+	   <center><h5>Basura Fernando*, Amaury Habrard**, Marc Sebban** and Tinne Tuytelaars*<br></h5></center>		   	
+  	   <center><h5>*KU Leuven ESAT-PSI iMinds Belgium<br></h5></center>
+ 	   <center><h5>**UMR CNRS 5516 Laboratoire Hubert Curien University of Saint-Etienne France<br></h5></center>			   	
+	 <center><h4>Abstract<br></h4></center>	
+		<p>
+		In this paper, we introduce a new domain adaptation
+(DA) algorithm where the source and target domains are
+represented by subspaces described by eigenvectors. In this
+context, our method seeks a domain adaptation solution by
+learning a mapping function which aligns the source subspace
+with the target one. We show that the solution of the
+corresponding optimization problem can be obtained in a
+simple closed form, leading to an extremely fast algorithm.
+We use a theoretical result to tune the unique hyperparameter
+corresponding to the size of the subspaces. We run our
+method on various datasets and show that, despite its intrinsic
+simplicity, it outperforms state of the art DA methods.
+</p>
+ 
+
+
+<table style="width: 100%" class="resultsTable">
+  <tr class="resultsTableHeader">
+    <td><strong>PDFs</strong></td>    
+  </tr>
+  <tr>
+    <td><dl><dt><a class="file"
+	       href="http://openaccess.thecvf.com/content_iccv_2013/papers/Fernando_Unsupervised_Visual_Domain_2013_ICCV_paper.pdf">PDF</a>
+      </dt></dl></td>
+      </tr>
+  <tr>
+    <td><dl><dt><a class="file"
+	       href="https://basurafernando.github.io/papers/SA_ICCV_2013_sup.pdf">Supplementary material</a>
+      </dt></dl></td>    
+  </tr>
+</table>  
+
+
+<table style="width: 100%" class="resultsTable">
+  <tr class="resultsTableHeader">
+    <td><strong>Source Code</strong></td>
+    <td>size</td>
+  </tr>
+  <tr>
+    <td><dl><dt><a class="file"
+	       href="https://drive.google.com/file/d/1YtX68nvCFePTu_WcoTr3n2GWndPbIuW5/view?usp=sharing">DA_SA.tar</a>
+      </dt><dd>Subspace Alignment Code with a demo. (Last updated 2014 September 23)</dd></dl></td>
+    <td><p>11.3KB</p></td>
+  </tr>
+  <tr>
+    <td><dl><dt><a class="file"
+	       href="getGFKDim.m">getGFKDim.m</a>
+      </dt><dd>Subspace disagreement measure code</dd></dl></td>
+    <td><p>2.9KB</p></td>
+  </tr>
+
+<tr>
+    <td><dl><dt><a class="file"
+	       href="MLE_IntrinsicDim.m">MLE_IntrinsicDim.m</a>
+      </dt><dd>SA-MLE subspace estimation code. (Last updated 2014 September 23)</dd></dl></td>
+    <td><p>2.9KB</p></td>
+</tr>  
+
+
+<tr>
+    <td><dl><dt><a class="file"
+	       href="JCSL.m">JCSL.m</a>
+      </dt><dd>Joint cross-domain classification code.</dd></dl></td>
+    <td><p>3.6KB</p></td>
+</tr>  
+ 
+</table>
+
+<table style="width: 100%" class="resultsTable">
+	<tr class="resultsTableHeader">
+    <td><strong>Bibtex</strong></td>    
+  </tr>
+    <tr>
+    <td>
+	@inproceedings{fernando2013SA,
+  title={Unsupervised Visual Domain Adaptation Using Subspace Alignment},
+  author={Fernando, Basura and Habrard, Amaury and Sebban, Marc and Tuytelaars, Tinne},
+  booktitle={ICCV},
+  year={2013}
+}
+	</td>
+    </tr>	
+</table>
+
+<table style="width: 100%" class="resultsTable">
+	<tr class="resultsTableHeader">
+    <td><strong>Acknowledgements</strong></td>    
+  </tr>
+    <tr>
+    <td>
+	We would like to thank <a href="http://de.linkedin.com/pub/markus-moll/66/734/865">Dr. Karl Markus Moll</a> for his valuable discussions and feedback during this work.
+	</td>
+    </tr>	
+</table>
+
+<table style="width: 100%">
+	<tr class="resultsTableHeader">
+    <td><strong>Related Publications</strong></td>  
+
+<tr class="spaceUnder"><td width="180px" valign="top"><img width="150px" src="https://basurafernando.github.io/images/SA_IJCV.jpg"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+	Subspace Alignment For Domain Adaptation
+	</span></br>
+	<span class="author">Basura Fernando, Amaury  Habrard, Marc  Sebban and Tinne Tuytelaars</span></br>
+	<span class="conf">arXiv.org</span></br>
+	<span class="PDF">
+   	<a  href="http://arxiv.org/pdf/1409.5241v2.pdf" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>	
+	</div>
+</td>
+</tr>
+
+<tr class="spaceUnder"><td width="180px" valign="top"><img width="150px" src="https://basurafernando.github.io/images/DA_ICCV13.jpg"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+	Unsupervised Visual Domain Adaptation Using Subspace Alignment
+	</span></br>
+	<span class="author">Basura Fernando, Amaury  Habrard, Marc  Sebban and Tinne Tuytelaars</span></br>
+	<span class="conf">ICCV 2013</span></br>
+	<span class="PDF">
+   	<a  href="http://openaccess.thecvf.com/content_iccv_2013/papers/Fernando_Unsupervised_Visual_Domain_2013_ICCV_paper.pdf" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>
+    <a  href="https://basurafernando.github.io/papers/SA_ICCV_2013_sup.pdf" target="_blank" style="font-size:13pt;color: #555;"> Suppl. Material</a>  
+	</div>
+</td>
+</tr>  
+
+<tr class="spaceUnder"><td width="180px" valign="top"><img width="150px" src="https://basurafernando.github.io/images/Location.jpg"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+	Location Recognition Over Large Time Lags
+	</span></br>
+	<span class="author">Basura Fernando, Tatiana Tommasi and Tinne Tuytelaars</span></br>
+	<span class="conf">Computer Vision and Image Understanding</span></br>
+	<span class="PDF">
+   	<a  href="http://arxiv.org/abs/1409.7556" target="_blank" style="font-size:13pt;color: #555;"> arxiv</a>
+	<a  href="http://www.sciencedirect.com/science/article/pii/S107731421500137X	" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>
+	<a href="https://basurafernando.github.io//beeldcanon/" target="_blank" style="font-size:13pt;color: #555;"> Project</a>
+	<a onclick="javascript:ShowHide(&#39;Fernando2015CVIU&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="Fernando2015CVIU" style="display: none;">
+		 	@article{Fernando2015CVIU,<br>  
+			title = "Location recognition over large time lags ",<br>  
+			journal = "Computer Vision and Image Understanding ",<br>  
+			volume = "139",<br>  
+			number = "",<br>  
+			pages = "21-28",<br>  
+			year = "2015",<br>  
+			note = "",<br>  
+			issn = "1077-3142",<br>  
+			doi = "http://dx.doi.org/10.1016/j.cviu.2015.05.016",<br>  
+			url = "http://www.sciencedirect.com/science/article/pii/S107731421500137X",<br>  
+			author = "Basura Fernando and Tatiana Tommasi and Tinne Tuytelaars",<br>  
+			}<br>  
+                    </div>	
+	</span>
+	</div>
+</td>
+</tr>
+
+<tr class="spaceUnder"><td width="180px" valign="top"><img width="150px" src="https://basurafernando.github.io/images/JCSL.jpg"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+	Joint cross-domain classification and subspace learning for unsupervised adaptation
+	</span></br>
+	<span class="author">Basura Fernando, Tatiana Tommasi and Tinne Tuytelaars</span></br>
+	<span class="conf">Pattern Recognition Letters</span></br>
+	<span class="PDF">   	
+	<a  href="https://basurafernando.github.io/papers/PRL2015.pdf" target="_blank" style="font-size:13pt;color: #555;">PDF</a>
+	<a  href="https://basurafernando.github.io/DA_SA/JCSL.m" target="_blank" style="font-size:13pt;color: #555;">Code</a>
+	<a onclick="javascript:ShowHide(&#39;Fernando2015PRL&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="Fernando2015PRL" style="display: none;">
+		 	@article{Fernando2015PRL,<br>  
+			title = "Joint cross-domain classification and subspace learning for unsupervised adaptation",<br>  
+			journal = "Pattern Recognition Letters",<br>  
+			volume = "",<br>  
+			number = "",<br>  
+			pages = " - ",<br>  
+			year = "2015",<br>  
+			note = "",<br>  
+			issn = "",<br>  
+			doi = "	10.1016/j.patrec.2015.07.009",<br>  
+			url = "",<br>  
+			author = "Basura Fernando and Tatiana Tommasi and Tinne Tuytelaars",<br>  
+			}<br>  			
+                    </div>	
+	</span>
+	</div>
+</td>
+</tr>
+
+<tr class="spaceUnder"><td width="180px" valign="top"><img width="150px" src="https://basurafernando.github.io/images/visda.jpg"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+	Does Evolution cause a Domain Shift?
+	</span></br>
+	<span class="author">Konstantinos Rematas, Basura Fernando, Tatiana Tommasi and Tinne Tuytelaars</span></br>
+	<span class="conf">International Workshop on Visual Domain Adaptation and Dataset Bias  - ICCV 2013</span></br>
+	<span class="PDF">
+	<a  href="https://homes.cs.washington.edu/~krematas/VisDA/main.pdf" target="_blank" style="font-size:13pt;color: #555;">PDF</a>
+    <a  href="https://homes.cs.washington.edu/~krematas/VisDA/CarEvolution.html" target="_blank" style="font-size:13pt;color: #555;">Project</a>	
+	</div>
+</td>
+</tr>
+
+
+</table>
+
+</div>
+
+
