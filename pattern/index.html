@@ -1,0 +1,182 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Mid-level Pattern Mining in Computer Vision</title>
+    
+    
+    <style type="text/css">
+      body { 
+	  font-family: sans-serif; 
+	  background-color: #ddd;
+      }
+
+      body a {
+	  color: #333;
+      }
+      
+      #container {
+	  margin: 40px auto;
+	  padding: 50px;
+	  background-color: #fff;
+	  width: 760px;
+          position: relative;
+      }
+
+     
+
+      span.label {
+	  font-weight: bold;
+	  color: #555;
+      }
+     
+      div.section {
+	  margin-top: 80px;
+      }
+      
+      div.ref {
+	  margin-top: 20px;
+      }
+
+      span.title {
+	  font-weight: bold;
+	  color: #555;
+      }
+	  
+	  span.journal {
+	  font-size: 90%;
+	  color: #555;
+      }
+	  
+	  span.venue {
+	  font-size: 90%;
+	  color: #555;
+      }
+
+      span.authors {
+	  font-size: 90%;
+      }
+
+      span.award {
+	  font-size: 90%;
+	  color: #600;
+      }
+
+     span.link {
+          font-weight: bold;  		
+	  font-size: 90%;
+	  color: #100;
+      }
+
+      div.bibtex { 
+	  display: none;
+	  background-color: #aaa;
+	  margin: 10px;
+	  padding: 5px 20px;
+      }
+    </style>
+	
+	<body>
+<div id="container">
+<div id="top">
+
+<center><h1>Pattern Mining in Computer Vision</h1></center>
+<p>Visual pattern minig is a useful tool to construct mid-level visual patterns that can be used for image classification, image retrieval, and image browsing. In this project page we present some of our work in visual pattern mining.</p>
+
+<center><a href="http://users.cecs.anu.edu.au/~basura/papers/ECCV_ID10.pdf"><h3>Effective Use of Frequent Itemset Mining for Image Classification<br></a></h3></center>
+<center><h3>ECCV 2012 </h3></center>
+<center><h5>Basura Fernando*, Elisa Fromont** and Tinne Tuytelaars*<br></h5></center>		   	
+<center><h5>*KU Leuven ESAT-PSI IBBT Belgium<br></h5></center>
+<center><h5>**UMR CNRS 5516 Laboratoire Hubert Curien University of Saint-Etienne France<br></h5></center>			   	
+<center><h4>Abstract<br></h4></center>	
+<p>In this paper we propose a new and effective scheme for applying
+frequent itemset mining to image classification tasks. We refer to the
+new set of obtained patterns as <i>Frequent Local Histograms</i> or FLHs. During
+the construction of the FLHs, we pay special attention
+to keep all the local histogram information during the mining process
+and to select the most relevant reduced set of FLH patterns for
+classification. The careful choice of the visual primitives and some
+proposed extensions to exploit other visual cues such as colour or global
+spatial information allow us to build powerful <i>bag-of-FLH</i>-based image
+representations. We show that these <i>bag-of-FLH</i>s are more discriminative
+than traditional bag-of-words and yield state-of-the art results on various
+image classification benchmarks.
+</p>
+<div id="photo"><center><img style="height: 190px;" src="FLH.jpg"></center></div>
+<center><a href="http://users.cecs.anu.edu.au/~basura/papers/ECCV_ID10.pdf">READ THE FULL PAPER</a></center>
+<center><h3><a href="http://users.cecs.anu.edu.au/~basura/eccv_flh/">Project</a></h3></center>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<center><a href="http://www.cv-foundation.org/openaccess/content_iccv_2013/papers/Fernando_Mining_Multiple_Queries_2013_ICCV_paper.pdf"><h3>Mining Multiple Queries for Image Retrieval: On-the-fly learning of an Object-specific Mid-level Representation</a></h3></center>
+<center><h3>ICCV 2013 </h3></center>
+<center><h5>Basura Fernando* and Tinne Tuytelaars*<br></h5></center>		   	
+<center><h5>*KU Leuven ESAT-PSI IBBT Belgium<br></h5></center>
+<center><h4>Abstract<br></h4></center>	
+<p>In this paper we present a new method for object retrieval starting from multiple query images. The use of multiple queries allows for a more expressive formulation of the query object including, e.g., different viewpoints and/or viewing conditions. This, in turn, leads to more diverse and more accurate retrieval results. When no query images are available to the user, they can easily be retrieved from the internet using a standard image search engine. In particular, we propose a new method based on pattern mining. Using the minimal description length principle, we derive the most suitable set of patterns to describe the query object, with patterns corresponding to local feature configurations. This results in a powerful object-specific mid-level image representation. The archive can then be searched efficiently for similar images based on this representation, using a combination of two inverted file systems. Since the patterns already encode local spatial information, good results on several standard image retrieval datasets are obtained even without costly re-ranking based on geometric verification.
+</p>
+<div id="photo"><center><img style="height: 190px;" src="http://users.cecs.anu.edu.au/~basura/images/MQIR_ICCV13.jpg"></center></div>
+<center><a href="http://www.cv-foundation.org/openaccess/content_iccv_2013/papers/Fernando_Mining_Multiple_Queries_2013_ICCV_paper.pdf">READ THE FULL PAPER</a></center>
+<center><h3><a href="http://users.cecs.anu.edu.au/~basura/dataset/mqir_dataset.html">Project</a></h3></center>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+<center><a href="http://users.cecs.anu.edu.au/~basura/papers/FLH_IJCV.pdf"><h3>Mining Mid-level Features for Image Classification</a></h3></center>
+<center><h3>IJCV 2014 </h3></center>
+<center><h5>Basura Fernando*, Elisa Fromont** and Tinne Tuytelaars*<br></h5></center>		   	
+<center><h5>*KU Leuven ESAT-PSI IBBT Belgium<br></h5></center>
+<center><h5>**UMR CNRS 5516 Laboratoire Hubert Curien University of Saint-Etienne France<br></h5></center>			   	
+<center><h4>Abstract<br></h4></center>	
+<p>Mid-level or semi-local features learnt using class-level information are potentially more distinctive than the traditional low-level local features constructed in a purely bottom-up fashion. At the same time they preserve some of the robustness properties with respect to occlusions and image clutter. In this paper we propose a new and effective scheme for extracting mid-level features for image classification, based on relevant pattern mining. In particular, we mine relevant patterns of local compositions of densely sampled low-level features. We refer to the new set of obtained patterns as Frequent Local Histograms or FLHs. During this process, we pay special attention to keeping all the local histogram information and to selecting the most relevant reduced set of FLH patterns for classification. The careful choice of the visual primitives and an extension to exploit both local and global spatial information allow us to build powerful bag-of-FLH-based image representations. We show that these bag-of-FLHs are more discriminative than traditional bag-of-words and yield state-of-the-art results on various image classification benchmarks, including Pascal VOC.
+</p>
+<div id="photo"><center><img style="height: 190px;" src="http://users.cecs.anu.edu.au/~basura/images/FLH_Main_Fig.jpg"></center></div>
+<center><a href="http://users.cecs.anu.edu.au/~basura/papers/FLH_IJCV.pdf">READ THE FULL PAPER</a></center>
+<center><h3><a href="http://users.cecs.anu.edu.au/~basura/eccv_flh/">Project</a></h3></center>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+    
+<center><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Rematas_Dataset_Fingerprints_Exploring_2015_CVPR_paper.pdf"><h3>Dataset Fingerprints: Exploring Image Collections Through Data Mining </a></h3></center>
+<center><h3>CVPR 2015 </h3></center>
+<center><h5>Konstantinos Rematas, Basura Fernando, Frank Dellaert, and Tinne Tuytelaars <br></h5></center>		   	
+<center><h4>Abstract<br></h4></center>	
+<p>As the amount of visual data increases, so does the need for summarization tools that can be used to explore large image collections and to quickly get familiar with their content. In this paper, we propose \emph{dataset fingerprints}, a new and powerful method based on data mining that extracts meaningful patterns from a set of images. The discovered patterns are compositions of discriminative mid-level features that co-occur in several images. Compared to earlier work, ours stands out because i) it's fully unsupervised, ii) discovered patterns cover large parts of the images,often corresponding to full objects or meaningful parts thereof, and iii) different patterns are connected based on co-occurrence, allowing a user to ``browse'' the images from one pattern to the next and to group patterns in a semantically meaningful manner.
+</p>
+<div id="photo"><center><img style="height: 190px;" src="http://users.cecs.anu.edu.au/~basura/images/fingerprints.png"></center></div>
+<center><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Rematas_Dataset_Fingerprints_Exploring_2015_CVPR_paper.pdf">READ THE FULL PAPER</a></center>
+<center><h3><a href="http://homes.cs.washington.edu/~krematas/DatasetFingerprints/">Project</a></h3></center>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<center><h4>Acknowledgements<br></h4></center>
+<p>The authors acknowledge the support of the IBBT Impact
+project <a href="http://staff.science.uva.nl/~gavves/beeldcanon/html/index.html">Beeldcanon</a> and the FP7 ERC Starting Grant 240530 <a href="http://homes.esat.kuleuven.be/~tuytelaa/cognimund.html">COGNIMUND</a> **.</p>
+
+
+
+</head>
