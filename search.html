@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -62,7 +63,7 @@ function loadTableData() {
 	searchTable = document.getElementById('qs_table');
 	var allRows = searchTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
-	// split all rows into entryRows and infoRows (e.g. abstract, review, bibtex)
+	// split all rows into entryRows and infoRows (e.g. abstract, comment, bibtex)
 	entryRows = new Array();
 
 	// get data from each row
@@ -289,7 +290,7 @@ td a:hover  { text-decoration: underline; }
 
 tr.noshow { display: none;}
 tr.highlight td { background-color: #EFEFEF; border-top: 2px #2E2E2E solid; font-weight: bold; }
-tr.abstract td, tr.review td, tr.bibtex td { background-color: #EFEFEF; text-align: justify; border-bottom: 2px #2E2E2E solid; }
+tr.abstract td, tr.comment td, tr.bibtex td { background-color: #EFEFEF; text-align: justify; border-bottom: 2px #2E2E2E solid; }
 tr.nextshow td { border-bottom: 1px gray solid; }
 
 tr.bibtex pre { width: 100%; overflow: auto; white-space: pre-wrap;}
@@ -322,7 +323,7 @@ p.infolinks { margin: 0.3em 0em 0em 0em; padding: 0px; }
 	<td>2017</td>
 	<td>Domain Adaptation in Computer Vision Applications, pp. 81-94&nbsp;</td>
 	<td>inbook</td>
-	<td><a href="http://doi.org/10.1007/978-3-319-58347-1_4">DOI</a> &nbsp;</td>
+	<td><a href="https://doi.org/10.1007/978-3-319-58347-1_4">DOI</a> &nbsp;</td>
 </tr>
 <tr id="Ng2020" class="entry">
 	<td>Ng, Y.B. and Fernando, B.</td>
@@ -330,7 +331,7 @@ p.infolinks { margin: 0.3em 0em 0em 0em; padding: 0px; }
 	<td>2020</td>
 	<td>IEEE Transactions on Image Processing 2020&nbsp;</td>
 	<td>article</td>
-	<td><a href="http://doi.org/10.1109/TIP.2020.3021497">DOI</a> <a href="https://doi.org/10.1109/TIP.2020.3021497">URL</a>&nbsp;</td>
+	<td><a href="https://doi.org/10.1109/TIP.2020.3021497">DOI</a> <a href="https://basurafernando.github.io/papers/TIP2020.pdf">URL</a>&nbsp;</td>
 </tr>
 <tr id="Yu2019a" class="entry">
 	<td>Yu, X., Porikli, F., Fernando, B. and Hartley, R.</td>
@@ -338,7 +339,7 @@ p.infolinks { margin: 0.3em 0em 0em 0em; padding: 0px; }
 	<td>2019</td>
 	<td>International Journal of Computer Vision&nbsp;</td>
 	<td>article</td>
-	<td><a href="http://doi.org/10.1007/s11263-019-01254-5">DOI</a> <a href="https://doi.org/10.1007/s11263-019-01254-5">URL</a>&nbsp;</td>
+	<td><a href="https://doi.org/10.1007/s11263-019-01254-5">DOI</a> <a href="https://doi.org/10.1007/s11263-019-01254-5">URL</a>&nbsp;</td>
 </tr>
 <tr id="Herath2019" class="entry">
 	<td>Herath, S., Fernando, B. and Harandi, M.</td>
@@ -362,7 +363,7 @@ p.infolinks { margin: 0.3em 0em 0em 0em; padding: 0px; }
 	<td>2019</td>
 	<td>IEEE Transactions on Pattern Analysis and Machine Intelligence, pp. 1-1&nbsp;</td>
 	<td>article</td>
-	<td><a href="http://doi.org/10.1109/TPAMI.2018.2873701">DOI</a> &nbsp;</td>
+	<td><a href="https://doi.org/10.1109/TPAMI.2018.2873701">DOI</a> &nbsp;</td>
 </tr>
 <tr id="Saha2018" class="entry">
 	<td>Saha, S.K., Fernando, B., Cuadros, J., Xiao, D. and Kanagasingam, Y.</td>
@@ -435,6 +436,46 @@ p.infolinks { margin: 0.3em 0em 0em 0em; padding: 0px; }
 	<td>Pattern Recognition<br/>Vol. 45(2), pp. 897-907&nbsp;</td>
 	<td>article</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/pr1.pdf">URL</a>&nbsp;</td>
+</tr>
+<tr id="Fernando2021" class="entry">
+	<td>Fernando, B. and Herath, S.</td>
+	<td>Anticipating human actions by correlating past with the future with Jaccard similarity measures</td>
+	<td>2021</td>
+	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2021&nbsp;</td>
+	<td>inproceedings</td>
+	<td>&nbsp;</td>
+</tr>
+<tr id="Chen2021" class="entry">
+	<td>Chen, Y., Fernando, B., Bilen, H., Mensink, T. and Gavves, E.</td>
+	<td>Deep Implicit Feature Matching</td>
+	<td>2021</td>
+	<td>International Conference on Machine Learning ICML 2021&nbsp;</td>
+	<td>inproceedings</td>
+	<td>&nbsp;</td>
+</tr>
+<tr id="Jayasundara_2021_WACV" class="entry">
+	<td>Jayasundara, V., Roy, D. and Fernando, B.</td>
+	<td>FlowCaps: Optical Flow Estimation With Capsule Networks for Action Recognition</td>
+	<td>2021</td>
+	<td>Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), pp. 3409-3418&nbsp;</td>
+	<td>inproceedings</td>
+	<td><a href="https://openaccess.thecvf.com/content/WACV2021/papers/Jayasundara_FlowCaps_Optical_Flow_Estimation_With_Capsule_Networks_for_Action_Recognition_WACV_2021_paper.pdf">URL</a>&nbsp;</td>
+</tr>
+<tr id="Rodriguez-Opazo_2021_WACV" class="entry">
+	<td>Rodriguez-Opazo, C., Marrese-Taylor, E., Fernando, B., Li, H. and Gould, S.</td>
+	<td>DORi: Discovering Object Relationships for Moment Localization of a Natural Language Query in a Video</td>
+	<td>2021</td>
+	<td>Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), pp. 1079-1088&nbsp;</td>
+	<td>inproceedings</td>
+	<td><a href="https://openaccess.thecvf.com/content/WACV2021/papers/Rodriguez-Opazo_DORi_Discovering_Object_Relationships_for_Moment_Localization_of_a_Natural_WACV_2021_paper.pdf">URL</a>&nbsp;</td>
+</tr>
+<tr id="Razali2021" class="entry">
+	<td>Razali, H. and Fernando, B.</td>
+	<td>A Log-likelihood Regularized KL Divergence for Video Prediction with A 3D Convolutional Variational Recurrent Network</td>
+	<td>2021</td>
+	<td>Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision, pp. 209-217&nbsp;</td>
+	<td>inproceedings</td>
+	<td><a href="https://openaccess.thecvf.com/content/WACV2021W/GHB/papers/Razali_A_Log-Likelihood_Regularized_KL_Divergence_for_Video_Prediction_With_a_WACVW_2021_paper.pdf">URL</a>&nbsp;</td>
 </tr>
 <tr id="Jaiswal2020" class="entry">
 	<td>Jaiswal, S., Choi, D. and Fernando, B.</td>
@@ -775,7 +816,7 @@ p.infolinks { margin: 0.3em 0em 0em 0em; padding: 0px; }
 </tbody>
 </table>
 <footer>
- <small>Created by <a href="http://jabref.sourceforge.net">JabRef</a> on 13/09/2020.</small>
+ <small>Created by <a href="http://jabref.sourceforge.net">JabRef</a> on 24/05/2021.</small>
 </footer>
 
 <!-- file generated by JabRef -->
