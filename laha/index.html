@@ -1,0 +1,475 @@
+﻿<html><head>
+<meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="LAHA">
+
+<title>LAHA: Learning To Anticipate Human Actions That Happen In The Next One To Five Seconds Using Self-Regularised Future Content Generation For Human-Robotic Engagement</title>
+ <script language="JavaScript">
+        function ShowHide(divId)
+        {
+            if(document.getElementById(divId).style.display == 'none')
+            {
+                document.getElementById(divId).style.display='block';
+            }
+            else
+            {
+                document.getElementById(divId).style.display = 'none';
+            }
+        }
+		
+		function showaboutMeDisplay() {
+				if (document.getElementById("divabout").style.display == "none")
+				{
+					document.getElementById("divabout").style.display = "block";
+				}
+				else
+				{
+					document.getElementById("divabout").style.display = "none";
+				}
+		}
+		
+		function showAbstract(divId)
+		{
+			if(document.getElementById(divId).style.display == 'none')
+            {
+                document.getElementById(divId).style.display='block';
+            }
+            else
+            {
+                document.getElementById(divId).style.display = 'none';
+            }
+		}
+		
+        </script>
+
+<style type="text/css">
+body {
+	font-family:verdana,arial,sans-serif;
+	font-size:10pt;
+	margin:30px;
+	background-color:#FFFFFF;
+	}
+	
+	span.titleSt {
+	font-size:14pt;
+	color: #0000FF;
+	}
+	
+	span.author {
+	font-size:10pt;
+	color: #000000;
+	}
+	
+	span.conf {
+		font-size:11pt;
+		color: #111;
+		font-weight:bold;
+	}
+	span.PDF {
+		font-size:13pt;
+		color: #555;
+	}
+	span.Note {
+		font-size:13pt;
+		color: #900;
+	}
+	
+	
+div.ex
+{
+width:800px;
+padding:1px;
+border:0px solid gray;
+margin:0px;
+}
+
+div.extra
+{
+width:1000px;
+padding:1px;
+border:0px solid gray;
+margin:0px;
+}
+
+div.bib{
+        margin:15px;
+		border:2px solid #a1a1a1;
+		padding:5px 10px; 
+		background:#dddddd;
+		width:400px;
+		border-radius:15px;
+		font-size:80%;
+}
+
+div.abstract{
+        margin:15px;
+		border:2px solid #a1a1a1;
+		padding:5px 10px; 
+		background:#dddddd;
+		width:600px;
+		border-radius:15px;
+		font-size:80%;
+}
+
+img{height: 100; width: 170px;image-rendering: smooth;}
+
+tr.spaceUnder > td
+{
+  padding-bottom: 2em;
+}
+
+tr.spaceUnder2 > td
+{
+  padding-bottom: 3em;
+}
+
+span.year {
+		font-size:14pt;
+		color: #247;
+		font-weight:bold;
+		text-decoration: underline;
+	}
+
+/*Button Style*/ .button { float:left; height:auto; font:96%/150% "Lucida Grande", Geneva, Verdana, Arial, Helvetica, sans-serif; width:12em; text-align:center; white-space:nowrap; } 
+/*Button Arrow Styles*/ .arrows { font-size:90%; margin:0.2em; } 
+/*Button link styles*/ .button a:link, .button a:visited { color: #000; background-color:#eee; font-size:1em; font-weight:bolder; text-decoration: none; border-bottom:0.1em solid #555; border-right:0.1em solid #444; border-top:0.1em solid #ccc; border-left:0.1em solid #ccc; margin: 0.2em; padding:0.2em; display:block; } 
+.button a:hover { background-color:#aaa; color:#fff; border-top:0.1em solid #777; border-left:0.1em solid #777; border-bottom:0.1em solid #aaa; border-right:0.1em solid #aaa; padding:0.2em; margin: 0.2em; }
+
+a:visited {
+    color:#0000FF;
+}
+	
+</style>
+</head>
+<body marginwidth="0" marginheight="0">
+
+<h1><a href="#" >LAHA: Learning To Anticipate Human Actions That Happen In The Next One To Five Seconds Using Self-Regularised Future Content Generation For Human-Robotic Engagement</a></h1>
+
+<img style="height: 562px; width: 1000px"  src="Project_Picture.jpg">
+
+
+
+<div id="divabout" class="extra" >
+<p>Our ability to anticipate the behaviour of others comes naturally to us. For example, an experienced driver can often predict the behaviour of other road users. Similarly, a good table tennis player can estimate the direction of the ball just by observing the movements of the opponent. This phenomenon is called Action Anticipation, the ability to recognise actions of others before
+it happens in the immediate future. This is so natural to us but how to develop a computational approach to do the same remains a challenge. It is critical to transfer this ability to computers so that robots may be able to react quickly by anticipating human actions like humans. Robots’ ability to understand what humans might do in the immediate future is important for the development of assistive robotics in domains such as manufacturing and healthcare. The objective of this project is to investigate a novel approach to anticipate human actions, specifically one to five seconds before action happens using visual information in human-robot engagement scenarios. Current action anticipation approaches primarily rely on new loss functions that allow us to
+tackle the uncertainty in future predictions. However, these approaches assume observed data contains rich information about the future human actions. Other approaches overcome this limitation by generating appearance information such as objects, environment and context for the future, and then classify those to anticipate future human actions. We argue that movement
+of objects and humans are the key indicators to anticipate human actions before they happen. Unfortunately, these approaches are not able to generate most useful information to anticipate actions because they only consider appearance and do not explicitly generate movement information such as motion.</p> 
+
+
+<h2>Publications </h2>
+
+<table>
+
+
+<tr class="spaceUnder"><td  valign="top"><img src="https://basurafernando.github.io/images/anticipation21.png"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+Anticipating human actions by correlating past with the future with Jaccard similarity measures
+	</span></br>
+	<span class="author">
+Basura Fernando and Samitha Herath</span></br>
+	<span class="conf">CVPR 2021</span></br>   	
+	<span class="PDF">
+	<a  href="https://basurafernando.github.io/papers/AnticipationCVPR21.pdf" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>	
+	<a onclick="javascript:ShowHide(&#39;cvpr21&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="cvpr21" style="display: none;">
+@article{</br>
+Fernando21,</br>
+title={Anticipating human actions by correlating past with the future with Jaccard similarity measures},</br>
+author={Basura Fernando and Samitha Herath},</br>
+booktitle={CVPR},</br>
+year={2021},</br>
+}</br>
+</br>
+<button class="close" onclick="document.getElementById('cvpr21').style.display='none'" ><font color=red>&times;</font></button>							
+                    </div>	
+	</span></br>	
+	</div>
+</td>
+</tr>
+
+
+<tr class="spaceUnder"><td  valign="top"><img src="https://basurafernando.github.io/images/2021_TIP_ROY.jpg"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+Action Anticipation using Pairwise Human-Object Interactions and Transformers
+	</span></br>
+	<span class="author">
+Debaditya Roy and Basura Fernando</span></br>
+	<span class="conf">IEEE Transactions on Image Processing 2021</span></br>   	
+	<span class="author">Impact factor 10.856</span></br>
+	<span class="PDF">
+	<a  href="https://basurafernando.github.io/papers/2021_TIP_ROY.pdf" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>	
+	<a onclick="javascript:ShowHide(&#39;2021_TIP_ROY&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="2021_TIP_ROY" style="display: none;">
+@article{</br>
+2021_TIP_ROY,</br>
+title={Action Anticipation using Pairwise Human-Object Interactions and Transformers},</br>
+author={Debaditya Roy and Basura Fernando},</br>
+journal={IEEE Transactions of Image Processing},</br>
+year={2021},</br>
+}</br>
+</br>
+<button class="close" onclick="document.getElementById('2021_TIP_ROY').style.display='none'" ><font color=red>&times;</font></button>							
+                    </div>	
+	</span></br>	
+	</div>
+</td>
+</tr>
+
+<tr class="spaceUnder"><td  valign="top"><img src="https://basurafernando.github.io/images/TIP2020V2.png"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+Forecasting future action sequences with attention: a new approach to weakly supervised action forecasting
+	</span></br>
+	<span class="author">
+Yan Bin Ng, and Basura Fernando</span></br>
+	<span class="conf">IEEE Transactions on Image Processing 2020 </span></br>
+    <span class="author">Impact factor 10.856</span></br>
+	<span class="PDF">
+	<a  href="https://basurafernando.github.io/papers/TIP2020.pdf" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>
+	<a  href="https://ieeexplore.ieee.org/document/9194283" target="_blank" style="font-size:13pt;color: #555;"> Web</a>	
+	<a onclick="javascript:ShowHide(&#39;YanBin2020&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="YanBin2020" style="display: none;">
+@article{</br>
+YanBin2020,</br>
+title={Forecasting future action sequences with attention: a new approach to weakly supervised action forecasting},</br>
+author={Yan Bin Ng, Basura Fernando},</br>
+booktitle={IEEE Transactions on Image Processing},</br>
+year={2020},</br>
+}</br>
+</br>
+<button class="close" onclick="document.getElementById('YanBin2020').style.display='none'" ><font color=red>&times;</font></button>							
+                    </div>	
+	</span></br>	
+	</div>
+</td>
+</tr>
+
+<tr class="spaceUnder"><td  valign="top"><img src="https://basurafernando.github.io/images/cviu21.jpg"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+Weakly supervised action segmentation with effective use of attention and self-attention.
+	</span></br>
+	<span class="author">
+Yan Bin Ng and Basura Fernando</span></br>
+	<span class="conf">Computer Vision and Image Understanding 2021</span></br>   		
+	<span class="PDF">
+	<a  href="https://basurafernando.github.io/papers/CVIU_2021.pdf" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>	
+	<a onclick="javascript:ShowHide(&#39;CVIU_2021&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="CVIU_2021" style="display: none;">
+@article{</br>
+CVIU_2021,</br>
+title={Weakly supervised action segmentation with effective use of attention and self-attention.},</br>
+author={Yan Bin Ng and Basura Fernando},</br>
+journal={Computer Vision and Image Understanding},</br>
+year={2021},</br>
+}</br>
+</br>
+<button class="close" onclick="document.getElementById('CVIU_2021').style.display='none'" ><font color=red>&times;</font></button>							
+                    </div>	
+	</span></br>	
+	</div>
+</td>
+</tr>
+
+<tr class="spaceUnder"><td  valign="top"><img src="https://basurafernando.github.io/images/wacv22.jpg"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+Action anticipation using latent goal learning 
+	</span></br>
+	<span class="author">
+Debaditya Roy  and Basura Fernando</span></br>
+	<span class="conf">WACV 2022</span></br>   		
+	<span class="PDF">
+	<a  href="https://basurafernando.github.io/papers/wacv22.pdf" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>	
+	<a onclick="javascript:ShowHide(&#39;wacv22&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="wacv22" style="display: none;">
+@inproceedings{</br>
+wacv22,</br>
+title={Action anticipation using latent goal learning},</br>
+author={Debaditya Roy and Basura Fernando},</br>
+booktitle={WACV},</br>
+year={2022},</br>
+}</br>
+</br>
+<button class="close" onclick="document.getElementById('wacv22').style.display='none'" ><font color=red>&times;</font></button>							
+                    </div>	
+	</span></br>	
+	</div>
+</td>
+</tr>
+
+
+
+<tr class="spaceUnder"><td  valign="top"><img src="https://basurafernando.github.io/images/3dvrnnwacv21.png"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+A Log-likelihood Regularized KL Divergence for Video Prediction with A 3D Convolutional Variational Recurrent Network
+	</span></br>
+	<span class="author">
+Haziq Razali and Basura Fernando</span></br>
+	<span class="conf">WACV 2021</span><span class="author"></br> Generation of Human Behavior Workshop</span></br>   	
+	<span class="PDF">
+	<a  href="https://basurafernando.github.io/papers/3dvrnnwacv21.pdf" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>	
+	<a onclick="javascript:ShowHide(&#39;Haziq20&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="Haziq20" style="display: none;">
+@article{</br>
+Haziq20,</br>
+title={A Log-likelihood Regularized KL Divergence for Video Prediction with A 3D Convolutional Variational Recurrent Network},</br>
+author={Haziq Razali and Basura Fernando},</br>
+booktitle={WACV},</br>
+year={2021},</br>
+}</br>
+</br>
+<button class="close" onclick="document.getElementById('Haziq20').style.display='none'" ><font color=red>&times;</font></button>							
+                    </div>	
+	</span></br>	
+	</div>
+</td>
+</tr>
+
+
+<tr class="spaceUnder"><td  valign="top"><img src="https://basurafernando.github.io/images/FlowCapsWACV21.png"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+FlowCaps: Optical Flow Estimation with Capsule Networks For Action Recognition
+	</span></br>
+	<span class="author">
+Vinoj Jayasundara, Debaditya Roy and Basura Fernando</span></br>
+	<span class="conf">WACV 2021 </span></br>    
+	<span class="PDF">
+	<a  href="https://basurafernando.github.io/papers/wacv21flowcaps.pdf" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>	
+	<a onclick="javascript:ShowHide(&#39;Vinoj&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="Vinoj" style="display: none;">
+@article{</br>
+Vinoj,</br>
+title={FlowCaps: Optical Flow Estimation with Capsule Networks For Action Recognition},</br>
+author={Vinoj Jayasundara and Debaditya Roy and Basura Fernando},</br>
+booktitle={WACV},</br>
+year={2021},</br>
+}</br>
+</br>
+<button class="close" onclick="document.getElementById('Vinoj').style.display='none'" ><font color=red>&times;</font></button>							
+                    </div>	
+	</span></br>	
+	</div>
+</td>
+</tr>
+
+
+
+
+<tr class="spaceUnder"><td  valign="top"><img src="https://basurafernando.github.io/images/bmvc2020B.png"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+What do CNNs gain by imitating the visual development of primate infants?
+	</span></br>
+	<span class="author">
+Shantanu Jaiswal, Dongkyu Choi, Basura Fernando</span></br>
+	<span class="conf">BMVC 2020</span></br>
+	<span class="PDF">
+	<a  href="https://basurafernando.github.io/papers/bmvc2020.pdf" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>	
+	<a onclick="javascript:ShowHide(&#39;Jaiswal2020&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="Jaiswal2020" style="display: none;">
+@inproceedings{</br>
+Jaiswal2020,</br>
+title={What do CNNs gain by imitating the visual development of primate infants?},</br>
+author={Shantanu Jaiswal, Dongkyu Choi, Basura Fernando},</br>
+booktitle={The British Machine Vision Conference (BMVC)},</br>
+year={2020},</br>
+}</br>
+</br>
+<button class="close" onclick="document.getElementById('Jaiswal2020').style.display='none'" ><font color=red>&times;</font></button>							
+                    </div>	
+	</span></br>	
+	</div>
+</td>
+</tr>
+
+<tr class="spaceUnder"><td  valign="top"><img width="160px" src="https://basurafernando.github.io/images/WSGN.png"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+Weakly Supervised Gaussian Networks for Action Detection
+	</span></br>
+	<span class="author">
+Basura Fernando and Cheston Tan and Hakan Bilen</span></br>
+	<span class="conf">WACV 2020</span></br>
+	<span class="PDF">
+	<a  href="https://basurafernando.github.io/papers/wacv2020_wsgn.pdf" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>
+	<a  href="https://arxiv.org/abs/1904.07774" target="_blank" style="font-size:13pt;color: #555;"> arxiv</a>		
+	<a onclick="javascript:ShowHide(&#39;FernandoWACV20&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="FernandoWACV20" style="display: none;">
+@InProceedings{FernandoWACV20,</br>
+  Title                    = {Weakly Supervised Gaussian Networks for Action Detection},</br>
+  Author                   = {Fernando, Basura and Chet, Cheston Tan Yin and Bilen, Hakan},</br>
+  Booktitle                = {Winter Conference on Applications of Computer Vision (WACV ’20)},</br>
+  Year                     = {2020},</br>
+</br>
+}</br>
+<button class="close" onclick="document.getElementById('FernandoWACV20').style.display='none'" ><font color=red>&times;</font></button>							
+                    </div>	
+	</span></br>	
+	</div>
+</td>
+</tr>
+
+<tr class="spaceUnder"><td  valign="top"><img width="160px" src="https://basurafernando.github.io/images/YanBinAction.png"></td>
+<td valign="top">
+	<div class="ex">
+	<span class="titleSt">
+Human Action Sequence Classification
+	</span></br>
+	<span class="author">
+Yan Bin Ng and Basura Fernando</span></br>
+	<!--span class="conf">arXiv preprint</span></br-->
+	<span class="PDF">
+	<a  href="https://arxiv.org/abs/1910.02602" target="_blank" style="font-size:13pt;color: #555;"> PDF</a>	
+	<a onclick="javascript:ShowHide(&#39;Fernando191002602&#39;)" href="javascript:;" style="font-size:13pt;color: #555;" >Bibtex</a>
+                    <div class="bib" id="Fernando191002602" style="display: none;">
+@misc{ng2019human,</br>
+    title={Human Action Sequence Classification},</br>
+    author={Yan Bin Ng and Basura Fernando},</br>
+    year={2019},</br>
+    eprint={1910.02602},</br>
+    archivePrefix={arXiv},</br>
+    primaryClass={cs.CV}</br>
+}
+}</br>
+<button class="close" onclick="document.getElementById('Fernando191002602').style.display='none'" ><font color=red>&times;</font></button>							
+                    </div>	
+	</span></br>	
+	</div>
+</td>
+</tr>
+</table>
+</div>
+
+
+<a name="master" > <h2>Team Members</h2></a>
+
+
+<p style="font-size:14pt;color: #555;">1. 2019-2021 <a target="_blank"  href="https://dblp.uni-trier.de/pers/hd/n/Ng:Yan_Bin">Yan Bin Ng</a> (Research Engineer) </br></p>
+<p style="font-size:14pt;color: #555;">2. 2019-2021 <a target="_blank"  href="https://dblp.uni-trier.de/pers/hd/r/Razali:Haziq">Haziq Razali</a> (Research Engineer) </br></p>
+<p style="font-size:14pt;color: #555;">3. 2019-2020 <a target="_blank"  href="https://scholar.google.com/citations?user=2yTeZ58AAAAJ&hl=en">Vinoj Jayasundara</a> (Research Engineer) </br></p>
+<p style="font-size:14pt;color: #555;">4. 2020-now <a target="_blank"  href="https://dblp.uni-trier.de/pers/hd/r/Roy:Debaditya/">Debaditya Roy</a> (Research Scientist)</br></p>
+<p style="font-size:14pt;color: #555;">5. 2020-2021 <a target="_blank"  href="">Brandon Loh</a> (Research Engineer) </br> </p>
+<p style="font-size:14pt;color: #555;">6. 2021-2022 <a target="_blank"  href="">Johnathon Toh</a> (Research Engineer) </br> </p>
+<p style="font-size:14pt;color: #555;">7. 2022-2022 <a target="_blank"  href="">Yang Hong</a> (Research Engineer) </br> </p>
+<p style="font-size:14pt;color: #555;">8. 2022-2022 <a target="_blank"  href="">Venkata Sai Vijay Kumar</a> (Research Engineer) </br> </p>
+
+
+
+
+</html>
+
