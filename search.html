@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Search Publications</title>
+<title>Search pulication</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript">
 <!--
-// QuickSearch script for JabRef HTML export 
+// QuickSearch script for JabRef HTML export (no Abstract/BibTeX)
 // Version: 3.0
 //
 // Copyright (c) 2006-2011, Mark Schenk
@@ -23,9 +23,6 @@
 //
 
 // Search settings
-var searchAbstract = true;	// search in abstract
-var searchComment = true;	// search in comment
-
 var noSquiggles = true; 	// ignore diacritics when searching
 var searchRegExp = false; 	// enable RegExp searches
 
@@ -66,10 +63,10 @@ function loadTableData() {
 	var allRows = searchTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
 	// split all rows into entryRows and infoRows (e.g. abstract, comment, bibtex)
-	entryRows = new Array(); infoRows = new Array(); absRows = new Array(); revRows = new Array();
+	entryRows = new Array();
 
 	// get data from each row
-	entryRowsData = new Array(); absRowsData = new Array(); revRowsData = new Array(); 
+	entryRowsData = new Array();
 	
 	BibTeXKeys = new Array();
 	
@@ -79,23 +76,10 @@ function loadTableData() {
 			entryRowsData[j] = stripDiacritics(getTextContent(allRows[i]));
 			allRows[i].id ? BibTeXKeys[j] = allRows[i].id : allRows[i].id = 'autokey_'+j;
 			j ++;
-		} else {
-			infoRows[k++] = allRows[i];
-			// check for abstract/comment
-			if (allRows[i].className.match(/abstract/)) {
-				absRows.push(allRows[i]);
-				absRowsData[j-1] = stripDiacritics(getTextContent(allRows[i]));
-			} else if (allRows[i].className.match(/comment/)) {
-				revRows.push(allRows[i]);
-				revRowsData[j-1] = stripDiacritics(getTextContent(allRows[i]));
-			}
 		}
 	}
 	//number of entries and rows
 	numEntries = entryRows.length;
-	numInfo = infoRows.length;
-	numAbs = absRows.length;
-	numRev = revRows.length;
 }
 
 function quickSearch(){
@@ -115,7 +99,6 @@ function quickSearch(){
 		// only search for valid RegExp
 		try {
 			textRegExp = new RegExp(t,"i");
-			closeAllInfo();
 			qsfield.className = '';
 		}
 			catch(err) {
@@ -137,13 +120,6 @@ function quickSearch(){
 
 			if (entryRowsData[i].search(textRegExp) != -1 || BibTeXKeys[i].search(textRegExp) != -1){ 
 				found = true;
-			} else {
-				if(searchAbstract && absRowsData[i]!=undefined) {
-					if (absRowsData[i].search(textRegExp) != -1){ found=true; } 
-				}
-				if(searchComment && revRowsData[i]!=undefined) {
-					if (revRowsData[i].search(textRegExp) != -1){ found=true; } 
-				}
 			}
 			
 			if (found){
@@ -208,48 +184,6 @@ function escapeRegExp(str) {
   return str.replace(/[-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
-function toggleInfo(articleid,info) {
-
-	var entry = document.getElementById(articleid);
-	var abs = document.getElementById('abs_'+articleid);
-	var rev = document.getElementById('rev_'+articleid);
-	var bib = document.getElementById('bib_'+articleid);
-	
-	if (abs && info == 'abstract') {
-		abs.className.indexOf('noshow') == -1?abs.className = 'abstract noshow':abs.className = 'abstract show';
-	} else if (rev && info == 'comment') {
-		rev.className.indexOf('noshow') == -1?rev.className = 'comment noshow':rev.className = 'comment show';
-	} else if (bib && info == 'bibtex') {
-		bib.className.indexOf('noshow') == -1?bib.className = 'bibtex noshow':bib.className = 'bibtex show';
-	} else { 
-		return;
-	}
-
-	// check if one or the other is available
-	var revshow; var absshow; var bibshow;
-	(abs && abs.className.indexOf('noshow') == -1)? absshow = true: absshow = false;
-	(rev && rev.className.indexOf('noshow') == -1)? revshow = true: revshow = false;	
-	(bib && bib.className.indexOf('noshow') == -1)? bibshow = true: bibshow = false;
-	
-	// highlight original entry
-	if(entry) {
-		if (revshow || absshow || bibshow) {
-		entry.className = 'entry highlight show';
-		} else {
-		entry.className = 'entry show';
-		}
-	}
-	
-	// When there's a combination of abstract/comment/bibtex showing, need to add class for correct styling
-	if(absshow) {
-		(revshow||bibshow)?abs.className = 'abstract nextshow':abs.className = 'abstract';
-	} 
-	if (revshow) {
-		bibshow?rev.className = 'comment nextshow': rev.className = 'comment';
-	}	
-	
-}
-
 function setStatistics (hits) {
 	if(hits < 0) { hits=numEntries; }
 	if(stats) { stats.firstChild.data = hits + '/' + numEntries}
@@ -272,16 +206,7 @@ function getTextContent(node) {
 }
 
 function showAll(){
-	closeAllInfo();
 	for (var i = 0; i < numEntries; i++){ entryRows[i].className = 'entry show'; }
-}
-
-function closeAllInfo(){
-	for (var i=0; i < numInfo; i++){
-		if (infoRows[i].className.indexOf('noshow') ==-1) {
-			infoRows[i].className = infoRows[i].className + ' noshow';
-		}
-	}
 }
 
 function clearQS() {
@@ -300,14 +225,6 @@ function updateSetting(obj){
 
 	switch(option)
 	 {
-	 case "opt_searchAbs":
-	   searchAbstract=!searchAbstract;
-	   redoQS();
-	   break;
-	 case "opt_searchRev":
-	   searchComment=!searchComment;
-	   redoQS();
-	   break;
 	 case "opt_useRegExp":
 	   searchRegExp=!searchRegExp;
 	   redoQS();
@@ -321,13 +238,8 @@ function updateSetting(obj){
 }
 
 function initPreferences(){
-	if(searchAbstract){document.getElementById("opt_searchAbs").checked = true;}
-	if(searchComment){document.getElementById("opt_searchRev").checked = true;}
 	if(noSquiggles){document.getElementById("opt_noAccents").checked = true;}
 	if(searchRegExp){document.getElementById("opt_useRegExp").checked = true;}
-	
-	if(numAbs==0) {document.getElementById("opt_searchAbs").parentNode.style.display = 'none';}
-	if(numRev==0) {document.getElementById("opt_searchRev").parentNode.style.display = 'none';}
 }
 
 function toggleSettings(){
@@ -397,8 +309,6 @@ p.infolinks { margin: 0.3em 0em 0em 0em; padding: 0px; }
 <div id="showsettings" onclick="toggleSettings()">settings...</div>
 <div id="settings" class="hidden">
 <ul>
-<li><input type="checkbox" class="search_setting" id="opt_searchAbs" onchange="updateSetting(this)"><label for="opt_searchAbs"> include abstract</label></li>
-<li><input type="checkbox" class="search_setting" id="opt_searchRev" onchange="updateSetting(this)"><label for="opt_searchRev"> include comment</label></li>
 <li><input type="checkbox" class="search_setting" id="opt_useRegExp" onchange="updateSetting(this)"><label for="opt_useRegExp"> use RegExp</label></li>
 <li><input type="checkbox" class="search_setting" id="opt_noAccents" onchange="updateSetting(this)"><label for="opt_noAccents"> ignore accents</label></li>
 </ul>
@@ -408,1409 +318,563 @@ p.infolinks { margin: 0.3em 0em 0em 0em; padding: 0px; }
 <thead><tr><th width="20%">Author</th><th width="30%">Title</th><th width="5%">Year</th><th width="30%">Journal/Proceedings</th><th width="10%">Reftype</th><th width="5%">DOI/URL</th></tr></thead>
 <tbody><tr id="Fernando2017book" class="entry">
 	<td>Fernando, B., Aljundi, R., Emonet, R., Habrard, A., Sebban, M. and Tuytelaars, T.</td>
-	<td>Unsupervised Domain Adaptation Based on Subspace Alignment <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2017book','bibtex')">BibTeX</a>]</p></td>
+	<td>Unsupervised Domain Adaptation Based on Subspace Alignment</td>
 	<td>2017</td>
 	<td>Domain Adaptation in Computer Vision Applications, pp. 81-94&nbsp;</td>
 	<td>inbook</td>
 	<td><a href="https://doi.org/10.1007/978-3-319-58347-1_4">DOI</a> &nbsp;</td>
 </tr>
-<tr id="bib_Fernando2017book" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inbook{Fernando2017book,
-  author = {Fernando, Basura and Aljundi, Rahaf and Emonet, R&eacute;mi and Habrard, Amaury and Sebban, Marc and Tuytelaars, Tinne},
-  title = {Unsupervised Domain Adaptation Based on Subspace Alignment},
-  booktitle = {Domain Adaptation in Computer Vision Applications},
-  publisher = {Springer International Publishing},
-  year = {2017},
-  pages = {81--94},
-  doi = {https://doi.org/10.1007/978-3-319-58347-1_4}
-}
-</pre></td>
-</tr>
 <tr id="ng2021weakly" class="entry">
 	<td>Ng, Y.B. and Fernando, B.</td>
-	<td>Weakly supervised action segmentation with effective use of attention and self-attention <p class="infolinks">[<a href="javascript:toggleInfo('ng2021weakly','bibtex')">BibTeX</a>]</p></td>
+	<td>Weakly supervised action segmentation with effective use of attention and self-attention</td>
 	<td>2021</td>
 	<td>Computer Vision and Image Understanding<br/>Vol. 213, pp. 103298&nbsp;</td>
 	<td>article</td>
 	<td><a href="https://www.sciencedirect.com/science/article/abs/pii/S1077314221001429">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_ng2021weakly" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{ng2021weakly,
-  author = {Ng, Yan Bin and Fernando, Basura},
-  title = {Weakly supervised action segmentation with effective use of attention and self-attention},
-  journal = {Computer Vision and Image Understanding},
-  publisher = {Elsevier},
-  year = {2021},
-  volume = {213},
-  pages = {103298},
-  url = {https://www.sciencedirect.com/science/article/abs/pii/S1077314221001429}
-}
-</pre></td>
-</tr>
 <tr id="roy2021action" class="entry">
 	<td>Roy, D. and Fernando, B.</td>
-	<td>Action Anticipation Using Pairwise Human-Object Interactions and Transformers <p class="infolinks">[<a href="javascript:toggleInfo('roy2021action','bibtex')">BibTeX</a>]</p></td>
+	<td>Action Anticipation Using Pairwise Human-Object Interactions and Transformers</td>
 	<td>2021</td>
 	<td>IEEE Transactions on Image Processing<br/>Vol. 30, pp. 8116-8129&nbsp;</td>
 	<td>article</td>
 	<td><a href="https://ieeexplore.ieee.org/abstract/document/9546623">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_roy2021action" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{roy2021action,
-  author = {Roy, Debaditya and Fernando, Basura},
-  title = {Action Anticipation Using Pairwise Human-Object Interactions and Transformers},
-  journal = {IEEE Transactions on Image Processing},
-  publisher = {IEEE},
-  year = {2021},
-  volume = {30},
-  pages = {8116--8129},
-  url = {https://ieeexplore.ieee.org/abstract/document/9546623}
-}
-</pre></td>
-</tr>
 <tr id="Ng2020" class="entry">
 	<td>Ng, Y.B. and Fernando, B.</td>
-	<td>Forecasting future action sequences with attention: a new approach to weakly supervised action forecasting <p class="infolinks">[<a href="javascript:toggleInfo('Ng2020','bibtex')">BibTeX</a>]</p></td>
+	<td>Forecasting future action sequences with attention: a new approach to weakly supervised action forecasting</td>
 	<td>2020</td>
 	<td>IEEE Transactions on Image Processing 2020&nbsp;</td>
 	<td>article</td>
 	<td><a href="https://doi.org/10.1109/TIP.2020.3021497">DOI</a> <a href="https://basurafernando.github.io/papers/TIP2020.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Ng2020" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Ng2020,
-  author = {Ng, Yan Bin and Fernando, Basura},
-  title = {Forecasting future action sequences with attention: a new approach to weakly supervised action forecasting},
-  journal = {IEEE Transactions on Image Processing 2020},
-  year = {2020},
-  url = {https://basurafernando.github.io/papers/TIP2020.pdf},
-  doi = {https://doi.org/10.1109/TIP.2020.3021497}
-}
-</pre></td>
-</tr>
 <tr id="Yu2019a" class="entry">
 	<td>Yu, X., Porikli, F., Fernando, B. and Hartley, R.</td>
-	<td>Hallucinating Unaligned Face Images by Multiscale Transformative Discriminative Networks <p class="infolinks">[<a href="javascript:toggleInfo('Yu2019a','bibtex')">BibTeX</a>]</p></td>
+	<td>Hallucinating Unaligned Face Images by Multiscale Transformative Discriminative Networks</td>
 	<td>2019</td>
 	<td>International Journal of Computer Vision&nbsp;</td>
 	<td>article</td>
 	<td><a href="https://doi.org/10.1007/s11263-019-01254-5">DOI</a> <a href="https://doi.org/10.1007/s11263-019-01254-5">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Yu2019a" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Yu2019a,
-  author = {Yu, Xin and Porikli, Fatih and Fernando, Basura and Hartley, Richard},
-  title = {Hallucinating Unaligned Face Images by Multiscale Transformative Discriminative Networks},
-  journal = {International Journal of Computer Vision},
-  year = {2019},
-  url = {https://doi.org/10.1007/s11263-019-01254-5},
-  doi = {https://doi.org/10.1007/s11263-019-01254-5}
-}
-</pre></td>
-</tr>
 <tr id="Herath2019" class="entry">
 	<td>Herath, S., Fernando, B. and Harandi, M.</td>
-	<td>Using Temporal Information for Recognizing Actions from Still Images <p class="infolinks">[<a href="javascript:toggleInfo('Herath2019','bibtex')">BibTeX</a>]</p></td>
+	<td>Using Temporal Information for Recognizing Actions from Still Images</td>
 	<td>2019</td>
 	<td>Pattern Recognition<br/>Vol. 0(0), pp. 1-20&nbsp;</td>
 	<td>article</td>
 	<td><a href="j.patcog.2019.106989">DOI</a> <a href="https://basurafernando.github.io/papers/PR19.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Herath2019" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Herath2019,
-  author = {Samitha Herath and Basura Fernando and Mehrtash Harandi},
-  title = {Using Temporal Information for Recognizing Actions from Still Images},
-  journal = {Pattern Recognition},
-  year = {2019},
-  volume = {0},
-  number = {0},
-  pages = {1-20},
-  url = {https://basurafernando.github.io/papers/PR19.pdf},
-  doi = {j.patcog.2019.106989}
-}
-</pre></td>
-</tr>
 <tr id="Yu2019" class="entry">
 	<td>Yu, X., Fernando, B., Hartley, R. and Porikli, F.</td>
-	<td>Semantic Face Hallucination: Super-Resolving Very Low-Resolution Face Images with Supplementary Attributes <p class="infolinks">[<a href="javascript:toggleInfo('Yu2019','bibtex')">BibTeX</a>]</p></td>
+	<td>Semantic Face Hallucination: Super-Resolving Very Low-Resolution Face Images with Supplementary Attributes</td>
 	<td>2019</td>
 	<td>IEEE transactions on pattern analysis and machine intelligence&nbsp;</td>
 	<td>article</td>
 	<td><a href="https://ieeexplore.ieee.org/abstract/document/8713923">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Yu2019" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Yu2019,
-  author = {Yu, Xin and Fernando, Basura and Hartley, Richard and Porikli, Fatih},
-  title = {Semantic Face Hallucination: Super-Resolving Very Low-Resolution Face Images with Supplementary Attributes},
-  journal = {IEEE transactions on pattern analysis and machine intelligence},
-  publisher = {IEEE},
-  year = {2019},
-  url = {https://ieeexplore.ieee.org/abstract/document/8713923}
-}
-</pre></td>
-</tr>
 <tr id="SantaCruz2018" class="entry">
 	<td>Santa Cruz, R., Fernando, B., Cherian, A. and Gould, S.</td>
-	<td>Visual Permutation Learning <p class="infolinks">[<a href="javascript:toggleInfo('SantaCruz2018','bibtex')">BibTeX</a>]</p></td>
+	<td>Visual Permutation Learning</td>
 	<td>2019</td>
 	<td>IEEE Transactions on Pattern Analysis and Machine Intelligence, pp. 1-1&nbsp;</td>
 	<td>article</td>
 	<td><a href="https://doi.org/10.1109/TPAMI.2018.2873701">DOI</a> &nbsp;</td>
 </tr>
-<tr id="bib_SantaCruz2018" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{SantaCruz2018,
-  author = {R. Santa Cruz and B. Fernando and A. Cherian and S. Gould},
-  title = {Visual Permutation Learning},
-  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
-  year = {2019},
-  pages = {1-1},
-  doi = {https://doi.org/10.1109/TPAMI.2018.2873701}
-}
-</pre></td>
-</tr>
 <tr id="Saha2018" class="entry">
 	<td>Saha, S.K., Fernando, B., Cuadros, J., Xiao, D. and Kanagasingam, Y.</td>
-	<td>Automated Quality Assessment of Colour Fundus Images for Diabetic Retinopathy Screening in Telemedicine <p class="infolinks">[<a href="javascript:toggleInfo('Saha2018','bibtex')">BibTeX</a>]</p></td>
+	<td>Automated Quality Assessment of Colour Fundus Images for Diabetic Retinopathy Screening in Telemedicine</td>
 	<td>2018</td>
 	<td>Journal of Digital Imaging<br/>Vol. 31(6), pp. 869-878&nbsp;</td>
 	<td>article</td>
 	<td><a href="https://link.springer.com/article/10.1007/s10278-018-0084-9">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Saha2018" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Saha2018,
-  author = {Saha, Sajib Kumar and Basura Fernando and Jorge Cuadros and Di Xiao and Yogesan Kanagasingam},
-  title = {Automated Quality Assessment of Colour Fundus Images for Diabetic Retinopathy Screening in Telemedicine},
-  journal = {Journal of Digital Imaging},
-  publisher = {Springer International Publishing},
-  year = {2018},
-  volume = {31},
-  number = {6},
-  pages = {869--878},
-  url = {https://link.springer.com/article/10.1007/s10278-018-0084-9}
-}
-</pre></td>
-</tr>
 <tr id="Bilen2017" class="entry">
 	<td>Bilen, H., Fernando, B., Gavves, E. and Vedaldi, A.</td>
-	<td>Action Recognition with Dynamic Image Networks <p class="infolinks">[<a href="javascript:toggleInfo('Bilen2017','bibtex')">BibTeX</a>]</p></td>
+	<td>Action Recognition with Dynamic Image Networks</td>
 	<td>2017</td>
 	<td>IEEE transactions on pattern analysis and machine intelligence&nbsp;</td>
 	<td>article</td>
 	<td><a href="http://arxiv.org/abs/1612.00738">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Bilen2017" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Bilen2017,
-  author = {Hakan Bilen and Basura Fernando and Efstratios Gavves and Andrea Vedaldi},
-  title = {Action Recognition with Dynamic Image Networks},
-  journal = {IEEE transactions on pattern analysis and machine intelligence},
-  year = {2017},
-  url = {http://arxiv.org/abs/1612.00738}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2017ijcv" class="entry">
 	<td>Fernando, B. and Gould, S.</td>
-	<td>Discriminatively Learned Hierarchical Rank Pooling Networks <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2017ijcv','bibtex')">BibTeX</a>]</p></td>
+	<td>Discriminatively Learned Hierarchical Rank Pooling Networks</td>
 	<td>2017</td>
 	<td>International Journal of Computer Vision<br/>Vol. 0(0), pp. 1-22&nbsp;</td>
 	<td>article</td>
 	<td><a href="https://arxiv.org/abs/1705.10420">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2017ijcv" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Fernando2017ijcv,
-  author = {Basura Fernando and Stephen Gould},
-  title = {Discriminatively Learned Hierarchical Rank Pooling Networks},
-  journal = {International Journal of Computer Vision},
-  year = {2017},
-  volume = {0},
-  number = {0},
-  pages = {1-22},
-  url = {https://arxiv.org/abs/1705.10420}
-}
-</pre></td>
-</tr>
 <tr id="fernando2017rank" class="entry">
 	<td>Fernando, B., Gavves, E., Oramas, J., Ghodrati, A. and Tuytelaars, T.</td>
-	<td>Rank pooling for action recognition <p class="infolinks">[<a href="javascript:toggleInfo('fernando2017rank','bibtex')">BibTeX</a>]</p></td>
+	<td>Rank pooling for action recognition</td>
 	<td>2017</td>
 	<td>IEEE transactions on pattern analysis and machine intelligence<br/>Vol. 39(4), pp. 773-787&nbsp;</td>
 	<td>article</td>
 	<td><a href="http://dl.acm.org/citation.cfm?id=3069241">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_fernando2017rank" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{fernando2017rank,
-  author = {Fernando, Basura and Gavves, Efstratios and Oramas, Jos&eacute; and Ghodrati, Amir and Tuytelaars, Tinne},
-  title = {Rank pooling for action recognition},
-  journal = {IEEE transactions on pattern analysis and machine intelligence},
-  publisher = {IEEE},
-  year = {2017},
-  volume = {39},
-  number = {4},
-  pages = {773--787},
-  url = {http://dl.acm.org/citation.cfm?id=3069241}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2015" class="entry">
 	<td>Fernando, B., Tommasi, T. and Tuytelaars, T.</td>
-	<td>Location recognition over large time lags <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2015','bibtex')">BibTeX</a>]</p></td>
+	<td>Location recognition over large time lags</td>
 	<td>2015</td>
 	<td>Computer Vision and Image Understanding<br/>Vol. 139, pp. 21-28&nbsp;</td>
 	<td>article</td>
 	<td><a href="http://arxiv.org/abs/1409.7556">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2015" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Fernando2015,
-  author = {Fernando, Basura and Tommasi, Tatiana and Tuytelaars, Tinne},
-  title = {Location recognition over large time lags},
-  journal = {Computer Vision and Image Understanding},
-  publisher = {Academic Press},
-  year = {2015},
-  volume = {139},
-  pages = {21--28},
-  url = {http://arxiv.org/abs/1409.7556}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2015a" class="entry">
 	<td>Fernando, B., Tommasi, T. and Tuytelaars, T.</td>
-	<td>Joint cross-domain classification and subspace learning for unsupervised adaptation <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2015a','bibtex')">BibTeX</a>]</p></td>
+	<td>Joint cross-domain classification and subspace learning for unsupervised adaptation</td>
 	<td>2015</td>
 	<td>Pattern Recognition Letters<br/>Vol. 65, pp. 60-66&nbsp;</td>
 	<td>article</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/PRL2015.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2015a" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Fernando2015a,
-  author = {Fernando, Basura and Tommasi, Tatiana and Tuytelaars, Tinne},
-  title = {Joint cross-domain classification and subspace learning for unsupervised adaptation},
-  journal = {Pattern Recognition Letters},
-  publisher = {North-Holland},
-  year = {2015},
-  volume = {65},
-  pages = {60--66},
-  url = {http://users.cecs.anu.edu.au/&nbsp;basura/papers/PRL2015.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2014" class="entry">
 	<td>Fernando, B., Fromont, E. and Tuytelaars, T.</td>
-	<td>Mining mid-level features for image classification <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2014','bibtex')">BibTeX</a>]</p></td>
+	<td>Mining mid-level features for image classification</td>
 	<td>2014</td>
 	<td>International Journal of Computer Vision<br/>Vol. 108(3), pp. 186-203&nbsp;</td>
 	<td>article</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/FLH_IJCV.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2014" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Fernando2014,
-  author = {Fernando, Basura and Fromont, Elisa and Tuytelaars, Tinne},
-  title = {Mining mid-level features for image classification},
-  journal = {International Journal of Computer Vision},
-  publisher = {Springer US},
-  year = {2014},
-  volume = {108},
-  number = {3},
-  pages = {186--203},
-  url = {http://users.cecs.anu.edu.au/&nbsp;basura/papers/FLH_IJCV.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Gavves2014" class="entry">
 	<td>Gavves, E., Fernando, B., Snoek, C.G., Smeulders, A.W. and Tuytelaars, T.</td>
-	<td>Local alignments for fine-grained categorization <p class="infolinks">[<a href="javascript:toggleInfo('Gavves2014','bibtex')">BibTeX</a>]</p></td>
+	<td>Local alignments for fine-grained categorization</td>
 	<td>2014</td>
 	<td>International Journal of Computer Vision<br/>Vol. 111(2), pp. 191-212&nbsp;</td>
 	<td>article</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/IJCV-FG.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Gavves2014" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Gavves2014,
-  author = {Gavves, Efstratios and Fernando, Basura and Snoek, Cees GM and Smeulders, Arnold WM and Tuytelaars, Tinne},
-  title = {Local alignments for fine-grained categorization},
-  journal = {International Journal of Computer Vision},
-  publisher = {Springer US},
-  year = {2014},
-  volume = {111},
-  number = {2},
-  pages = {191--212},
-  url = {http://users.cecs.anu.edu.au/&nbsp;basura/papers/IJCV-FG.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2012" class="entry">
 	<td>Fernando, B., Fromont, E., Muselet, D. and Sebban, M.</td>
-	<td>Supervised learning of Gaussian mixture models for visual vocabulary generation <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2012','bibtex')">BibTeX</a>]</p></td>
+	<td>Supervised learning of Gaussian mixture models for visual vocabulary generation</td>
 	<td>2012</td>
 	<td>Pattern Recognition<br/>Vol. 45(2), pp. 897-907&nbsp;</td>
 	<td>article</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/pr1.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2012" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@article{Fernando2012,
-  author = {Fernando, Basura and Fromont, Elisa and Muselet, Damien and Sebban, Marc},
-  title = {Supervised learning of Gaussian mixture models for visual vocabulary generation},
-  journal = {Pattern Recognition},
-  publisher = {Pergamon},
-  year = {2012},
-  volume = {45},
-  number = {2},
-  pages = {897--907},
-  url = {http://users.cecs.anu.edu.au/&nbsp;basura/papers/pr1.pdf}
-}
-</pre></td>
+<tr id="Jaiswal2022" class="entry">
+	<td>Jaiswal, S., Fernando, B. and Tan, C.</td>
+	<td>TDAM: Top-Down Attention Module for Contextually Guided Feature Selection in CNNs</td>
+	<td>2022</td>
+	<td>In Proceedings of the European Conference on Computer Vision (ECCV)&nbsp;</td>
+	<td>inproceedings</td>
+	<td><a href="https://basurafernando.github.io/papers/eccv22shan.pdf">URL</a>&nbsp;</td>
+</tr>
+<tr id="Chen2022" class="entry">
+	<td>Chen, Y., Fernando, B., Bilen, H., Niessner, M. and Gavves, E.</td>
+	<td>3D Equivariant Graph Implicit Functions</td>
+	<td>2022</td>
+	<td>In Proceedings of the European Conference on Computer Vision (ECCV)&nbsp;</td>
+	<td>inproceedings</td>
+	<td><a href="https://basurafernando.github.io/papers/eccv22yunlu.pdf">URL</a>&nbsp;</td>
 </tr>
 <tr id="Goel2022" class="entry">
 	<td>Goel, A., Fernando, B., Keller, F. and Bilen, H.</td>
-	<td>Not All Relations are Equal: Mining Informative Labels for Scene Graph Generation <p class="infolinks">[<a href="javascript:toggleInfo('Goel2022','bibtex')">BibTeX</a>]</p></td>
+	<td>Not All Relations are Equal: Mining Informative Labels for Scene Graph Generation</td>
 	<td>2022</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2022&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://openaccess.thecvf.com/content/CVPR2022/papers/Goel_Not_All_Relations_Are_Equal_Mining_Informative_Labels_for_Scene_CVPR_2022_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Goel2022" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Goel2022,
-  author = {Arushi Goel and Basura Fernando and Frank Keller and Hakan Bilen},
-  title = {Not All Relations are Equal: Mining Informative Labels for Scene Graph Generation},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2022},
-  year = {2022},
-  url = {https://openaccess.thecvf.com/content/CVPR2022/papers/Goel_Not_All_Relations_Are_Equal_Mining_Informative_Labels_for_Scene_CVPR_2022_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Loh2022" class="entry">
 	<td>Loh, S.B., Roy, D. and Fernando, B.</td>
-	<td>Long-term Action Forecasting Using Multi-headed Attention-based Variational Recurrent Neural Networks <p class="infolinks">[<a href="javascript:toggleInfo('Loh2022','bibtex')">BibTeX</a>]</p></td>
+	<td>Long-term Action Forecasting Using Multi-headed Attention-based Variational Recurrent Neural Networks</td>
 	<td>2022</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2022 (Workshop)&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://openaccess.thecvf.com/content/CVPR2022W/ABAW/papers/Loh_Long-Term_Action_Forecasting_Using_Multi-Headed_Attention-Based_Variational_Recurrent_Neural_Networks_CVPRW_2022_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Loh2022" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Loh2022,
-  author = {Siyuan Brandon Loh and Debaditya Roy and Basura Fernando},
-  title = {Long-term Action Forecasting Using Multi-headed Attention-based Variational Recurrent Neural Networks},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2022 (Workshop)},
-  year = {2022},
-  url = {https://openaccess.thecvf.com/content/CVPR2022W/ABAW/papers/Loh_Long-Term_Action_Forecasting_Using_Multi-Headed_Attention-Based_Variational_Recurrent_Neural_Networks_CVPRW_2022_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="royaction" class="entry">
 	<td>Roy, D. and Fernando, B.</td>
-	<td>Action anticipation using latent goal learning <p class="infolinks">[<a href="javascript:toggleInfo('royaction','bibtex')">BibTeX</a>]</p></td>
+	<td>Action anticipation using latent goal learning</td>
 	<td>2022</td>
 	<td>Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://openaccess.thecvf.com/content/WACV2022/papers/Roy_Action_Anticipation_Using_Latent_Goal_Learning_WACV_2022_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_royaction" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{royaction,
-  author = {Roy, Debaditya and Fernando, Basura},
-  title = {Action anticipation using latent goal learning},
-  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
-  year = {2022},
-  url = {https://openaccess.thecvf.com/content/WACV2022/papers/Roy_Action_Anticipation_Using_Latent_Goal_Learning_WACV_2022_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2021" class="entry">
 	<td>Fernando, B. and Herath, S.</td>
-	<td>Anticipating human actions by correlating past with the future with Jaccard similarity measures <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2021','bibtex')">BibTeX</a>]</p></td>
+	<td>Anticipating human actions by correlating past with the future with Jaccard similarity measures</td>
 	<td>2021</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2021&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://openaccess.thecvf.com/content/CVPR2021/papers/Fernando_Anticipating_Human_Actions_by_Correlating_Past_With_the_Future_With_CVPR_2021_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2021" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2021,
-  author = {Fernando, Basura and Herath, Samitha},
-  title = {Anticipating human actions by correlating past with the future with Jaccard similarity measures},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2021},
-  year = {2021},
-  url = {https://openaccess.thecvf.com/content/CVPR2021/papers/Fernando_Anticipating_Human_Actions_by_Correlating_Past_With_the_Future_With_CVPR_2021_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Chen2021" class="entry">
 	<td>Chen, Y., Fernando, B., Bilen, H., Mensink, T. and Gavves, E.</td>
-	<td>Deep Implicit Feature Matching <p class="infolinks">[<a href="javascript:toggleInfo('Chen2021','bibtex')">BibTeX</a>]</p></td>
+	<td>Deep Implicit Feature Matching</td>
 	<td>2021</td>
 	<td>International Conference on Machine Learning ICML 2021&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://proceedings.mlr.press/v139/chen21f.html">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Chen2021" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Chen2021,
-  author = {Yunlu Chen and Basura Fernando and Hakan Bilen and Thomas Mensink and Efstratios Gavves},
-  title = {Deep Implicit Feature Matching},
-  booktitle = {International Conference on Machine Learning ICML 2021},
-  year = {2021},
-  url = {http://proceedings.mlr.press/v139/chen21f.html}
-}
-</pre></td>
-</tr>
 <tr id="Jayasundara_2021_WACV" class="entry">
 	<td>Jayasundara, V., Roy, D. and Fernando, B.</td>
-	<td>FlowCaps: Optical Flow Estimation With Capsule Networks for Action Recognition <p class="infolinks">[<a href="javascript:toggleInfo('Jayasundara_2021_WACV','bibtex')">BibTeX</a>]</p></td>
+	<td>FlowCaps: Optical Flow Estimation With Capsule Networks for Action Recognition</td>
 	<td>2021</td>
 	<td>Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), pp. 3409-3418&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://openaccess.thecvf.com/content/WACV2021/papers/Jayasundara_FlowCaps_Optical_Flow_Estimation_With_Capsule_Networks_for_Action_Recognition_WACV_2021_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Jayasundara_2021_WACV" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Jayasundara_2021_WACV,
-  author = {Jayasundara, Vinoj and Roy, Debaditya and Fernando, Basura},
-  title = {FlowCaps: Optical Flow Estimation With Capsule Networks for Action Recognition},
-  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
-  year = {2021},
-  pages = {3409-3418},
-  url = {https://openaccess.thecvf.com/content/WACV2021/papers/Jayasundara_FlowCaps_Optical_Flow_Estimation_With_Capsule_Networks_for_Action_Recognition_WACV_2021_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Rodriguez-Opazo_2021_WACV" class="entry">
 	<td>Rodriguez-Opazo, C., Marrese-Taylor, E., Fernando, B., Li, H. and Gould, S.</td>
-	<td>DORi: Discovering Object Relationships for Moment Localization of a Natural Language Query in a Video <p class="infolinks">[<a href="javascript:toggleInfo('Rodriguez-Opazo_2021_WACV','bibtex')">BibTeX</a>]</p></td>
+	<td>DORi: Discovering Object Relationships for Moment Localization of a Natural Language Query in a Video</td>
 	<td>2021</td>
 	<td>Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), pp. 1079-1088&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://openaccess.thecvf.com/content/WACV2021/papers/Rodriguez-Opazo_DORi_Discovering_Object_Relationships_for_Moment_Localization_of_a_Natural_WACV_2021_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Rodriguez-Opazo_2021_WACV" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Rodriguez-Opazo_2021_WACV,
-  author = {Rodriguez-Opazo, Cristian and Marrese-Taylor, Edison and Fernando, Basura and Li, Hongdong and Gould, Stephen},
-  title = {DORi: Discovering Object Relationships for Moment Localization of a Natural Language Query in a Video},
-  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
-  year = {2021},
-  pages = {1079-1088},
-  url = {https://openaccess.thecvf.com/content/WACV2021/papers/Rodriguez-Opazo_DORi_Discovering_Object_Relationships_for_Moment_Localization_of_a_Natural_WACV_2021_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Razali2021" class="entry">
 	<td>Razali, H. and Fernando, B.</td>
-	<td>A Log-likelihood Regularized KL Divergence for Video Prediction with A 3D Convolutional Variational Recurrent Network <p class="infolinks">[<a href="javascript:toggleInfo('Razali2021','bibtex')">BibTeX</a>]</p></td>
+	<td>A Log-likelihood Regularized KL Divergence for Video Prediction with A 3D Convolutional Variational Recurrent Network</td>
 	<td>2021</td>
 	<td>Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision, pp. 209-217&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://openaccess.thecvf.com/content/WACV2021W/GHB/papers/Razali_A_Log-Likelihood_Regularized_KL_Divergence_for_Video_Prediction_With_a_WACVW_2021_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Razali2021" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Razali2021,
-  author = {Razali, Haziq and Fernando, Basura},
-  title = {A Log-likelihood Regularized KL Divergence for Video Prediction with A 3D Convolutional Variational Recurrent Network},
-  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision},
-  year = {2021},
-  pages = {209--217},
-  url = {https://openaccess.thecvf.com/content/WACV2021W/GHB/papers/Razali_A_Log-Likelihood_Regularized_KL_Divergence_for_Video_Prediction_With_a_WACVW_2021_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Jaiswal2020" class="entry">
 	<td>Jaiswal, S., Choi, D. and Fernando, B.</td>
-	<td>What do CNNs gain by imitating the visual development of primate infants? <p class="infolinks">[<a href="javascript:toggleInfo('Jaiswal2020','bibtex')">BibTeX</a>]</p></td>
+	<td>What do CNNs gain by imitating the visual development of primate infants?</td>
 	<td>2020</td>
 	<td>The British Machine Vision Conference (BMVC)&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://www.bmvc2020-conference.com/conference/papers/paper_0196.html">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Jaiswal2020" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Jaiswal2020,
-  author = {Jaiswal, Shantanu and Choi, Dongkyu and Fernando, Basura},
-  title = {What do CNNs gain by imitating the visual development of primate infants?},
-  booktitle = {The British Machine Vision Conference (BMVC)},
-  year = {2020},
-  url = {https://www.bmvc2020-conference.com/conference/papers/paper_0196.html}
-}
-</pre></td>
-</tr>
 <tr id="Goel2020" class="entry">
 	<td>Goel, A., Fernando, B., Nguyen, T.-S. and Bilen, H.</td>
-	<td>Injecting Prior Knowledge into Image Caption Generation <p class="infolinks">[<a href="javascript:toggleInfo('Goel2020','bibtex')">BibTeX</a>]</p></td>
+	<td>Injecting Prior Knowledge into Image Caption Generation</td>
 	<td>2020</td>
 	<td>European Conference on Computer Vision Workshops&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://openreview.net/forum?id=f75kMo1dnKD">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Goel2020" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Goel2020,
-  author = {Goel, Arushi and Fernando, Basura and Nguyen, Thanh-Son and Bilen, Hakan},
-  title = {Injecting Prior Knowledge into Image Caption Generation},
-  booktitle = {European Conference on Computer Vision Workshops},
-  year = {2020},
-  url = {https://openreview.net/forum?id=f75kMo1dnKD}
-}
-</pre></td>
-</tr>
 <tr id="SantaCruz2020" class="entry">
 	<td>Santa Cruz, R., Cherian, A., Fernando, B., Campbell, D. and Gould, S.</td>
-	<td>Inferring Temporal Compositions of Actions Using Probabilistic Automata <p class="infolinks">[<a href="javascript:toggleInfo('SantaCruz2020','bibtex')">BibTeX</a>]</p></td>
+	<td>Inferring Temporal Compositions of Actions Using Probabilistic Automata</td>
 	<td>2020</td>
 	<td>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops, pp. 368-369&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_CVPRW_2020/papers/w23/Santa_Cruz_Inferring_Temporal_Compositions_of_Actions_Using_Probabilistic_Automata_CVPRW_2020_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_SantaCruz2020" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{SantaCruz2020,
-  author = {Santa Cruz, Rodrigo and Cherian, Anoop and Fernando, Basura and Campbell, Dylan and Gould, Stephen},
-  title = {Inferring Temporal Compositions of Actions Using Probabilistic Automata},
-  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops},
-  year = {2020},
-  pages = {368--369},
-  url = {http://openaccess.thecvf.com/content_CVPRW_2020/papers/w23/Santa_Cruz_Inferring_Temporal_Compositions_of_Actions_Using_Probabilistic_Automata_CVPRW_2020_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2020" class="entry">
 	<td>Fernando, B., Tan, C. and Bilen, H.</td>
-	<td>Weakly supervised Gaussian networks for action detection <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2020','bibtex')">BibTeX</a>]</p></td>
+	<td>Weakly supervised Gaussian networks for action detection</td>
 	<td>2020</td>
 	<td>The IEEE Winter Conference on Applications of Computer Vision, pp. 537-546&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_WACV_2020/papers/Fernando_Weakly_Supervised_Gaussian_Networks_for_Action_Detection_WACV_2020_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2020" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2020,
-  author = {Fernando, Basura and Tan, Cheston and Bilen, Hakan},
-  title = {Weakly supervised Gaussian networks for action detection},
-  booktitle = {The IEEE Winter Conference on Applications of Computer Vision},
-  year = {2020},
-  pages = {537--546},
-  url = {http://openaccess.thecvf.com/content_WACV_2020/papers/Fernando_Weakly_Supervised_Gaussian_Networks_for_Action_Detection_WACV_2020_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="HerathCVPR19" class="entry">
 	<td>Herath, S., Fernando, B., Harandi, M. and Nock, R.</td>
-	<td>Min-Max Statistical Alignment for Transfer Learning <p class="infolinks">[<a href="javascript:toggleInfo('HerathCVPR19','bibtex')">BibTeX</a>]</p></td>
+	<td>Min-Max Statistical Alignment for Transfer Learning</td>
 	<td>2019</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2019&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_ICCV_2017/papers/Aliakbarian_Encouraging_LSTMs_to_ICCV_2017_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_HerathCVPR19" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{HerathCVPR19,
-  author = {Samitha Herath and Basura Fernando and Mehrtash Harandi and Richard Nock},
-  title = {Min-Max Statistical Alignment for Transfer Learning},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2019},
-  year = {2019},
-  url = {http://openaccess.thecvf.com/content_ICCV_2017/papers/Aliakbarian_Encouraging_LSTMs_to_ICCV_2017_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Shi2018" class="entry">
 	<td>Shi, Y., Fernando, B. and Hartley, R.</td>
-	<td>Action Anticipation with RBF Kernelized Feature Mapping RNN <p class="infolinks">[<a href="javascript:toggleInfo('Shi2018','bibtex')">BibTeX</a>]</p></td>
+	<td>Action Anticipation with RBF Kernelized Feature Mapping RNN</td>
 	<td>2018</td>
 	<td>Proceedings of the European Conference on Computer Vision (ECCV), pp. 301-317&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_ECCV_2018/papers/Yuge_Shi_Action_Anticipation_with_ECCV_2018_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Shi2018" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Shi2018,
-  author = {Shi, Yuge and Fernando, Basura and Hartley, Richard},
-  title = {Action Anticipation with RBF Kernelized Feature Mapping RNN},
-  booktitle = {Proceedings of the European Conference on Computer Vision (ECCV)},
-  year = {2018},
-  pages = {301--317},
-  url = {http://openaccess.thecvf.com/content_ECCV_2018/papers/Yuge_Shi_Action_Anticipation_with_ECCV_2018_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Yu2018a" class="entry">
 	<td>Yu, X., Fernando, B., Ghanem, B., Porikli, F. and Hartley, R.</td>
-	<td>Face super-resolution guided by facial component heatmaps <p class="infolinks">[<a href="javascript:toggleInfo('Yu2018a','bibtex')">BibTeX</a>]</p></td>
+	<td>Face super-resolution guided by facial component heatmaps</td>
 	<td>2018</td>
 	<td>Proceedings of the European Conference on Computer Vision (ECCV), pp. 217-233&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_ECCV_2018/papers/Xin_Yu_Face_Super-resolution_Guided_ECCV_2018_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Yu2018a" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Yu2018a,
-  author = {Yu, Xin and Fernando, Basura and Ghanem, Bernard and Porikli, Fatih and Hartley, Richard},
-  title = {Face super-resolution guided by facial component heatmaps},
-  booktitle = {Proceedings of the European Conference on Computer Vision (ECCV)},
-  year = {2018},
-  pages = {217--233},
-  url = {http://openaccess.thecvf.com/content_ECCV_2018/papers/Xin_Yu_Face_Super-resolution_Guided_ECCV_2018_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Aliakbarian2018" class="entry">
 	<td>Aliakbarian, M.S., Saleh, F., Salzmann, M., Fernando, B., Petersson, L. and Andersson, L.</td>
-	<td>VIENA2: A Driving Anticipation Dataset <p class="infolinks">[<a href="javascript:toggleInfo('Aliakbarian2018','bibtex')">BibTeX</a>]</p></td>
+	<td>VIENA2: A Driving Anticipation Dataset</td>
 	<td>2018</td>
 	<td>Asian Conference on Computer Vision (ACCV 2018)&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://arxiv.org/abs/1810.09044">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Aliakbarian2018" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Aliakbarian2018,
-  author = {Mohammad Sadegh Aliakbarian and Fatemehsadat Saleh and Mathieu Salzmann and Basura Fernando and Lars Petersson and Lars Andersson},
-  title = {VIENA2: A Driving Anticipation Dataset},
-  booktitle = {Asian Conference on Computer Vision (ACCV 2018)},
-  year = {2018},
-  url = {https://arxiv.org/abs/1810.09044}
-}
-</pre></td>
-</tr>
 <tr id="Rodriguez2018" class="entry">
 	<td>Rodriguez, C., Fernando, B. and Li, H.</td>
-	<td>Action anticipation by predicting future dynamic images <p class="infolinks">[<a href="javascript:toggleInfo('Rodriguez2018','bibtex')">BibTeX</a>]</p></td>
+	<td>Action anticipation by predicting future dynamic images</td>
 	<td>2018</td>
 	<td>European Conference on Computer Vision, pp. 89-105&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_ECCVW_2018/papers/11131/Rodriguez_Action_Anticipation_By_Predicting_Future_Dynamic_Images_ECCVW_2018_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Rodriguez2018" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Rodriguez2018,
-  author = {Rodriguez, Cristian and Fernando, Basura and Li, Hongdong},
-  title = {Action anticipation by predicting future dynamic images},
-  booktitle = {European Conference on Computer Vision},
-  year = {2018},
-  pages = {89--105},
-  url = {http://openaccess.thecvf.com/content_ECCVW_2018/papers/11131/Rodriguez_Action_Anticipation_By_Predicting_Future_Dynamic_Images_ECCVW_2018_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Cruz18" class="entry">
 	<td>Cruz, R.S., Fernando, B., Cherian, A. and Gould, S.</td>
-	<td>Neural Algebra of Classifiers <p class="infolinks">[<a href="javascript:toggleInfo('Cruz18','bibtex')">BibTeX</a>]</p></td>
+	<td>Neural Algebra of Classifiers</td>
 	<td>2018</td>
 	<td>IEEE Winter Conference on Applications of Computer Vision WACV 2018&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://basurafernando.github.io/papers/WACV18_neural_algebra_classifiers.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Cruz18" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Cruz18,
-  author = {Rodrigo Santa Cruz and Basura Fernando and Anoop Cherian and Stephen Gould},
-  title = {Neural Algebra of Classifiers},
-  booktitle = {IEEE Winter Conference on Applications of Computer Vision WACV 2018},
-  year = {2018},
-  url = {https://basurafernando.github.io/papers/WACV18_neural_algebra_classifiers.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Yu2018" class="entry">
 	<td>Yu, X., Fernando, B. and Hartley, R.</td>
-	<td>Super-Resolving Very Low-Resolution Face Images with Supplementary Attributes <p class="infolinks">[<a href="javascript:toggleInfo('Yu2018','bibtex')">BibTeX</a>]</p></td>
+	<td>Super-Resolving Very Low-Resolution Face Images with Supplementary Attributes</td>
 	<td>2018</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2018&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_cvpr_2018/papers/Yu_Super-Resolving_Very_Low-Resolution_CVPR_2018_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Yu2018" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Yu2018,
-  author = {Xin Yu and Basura Fernando and Richard Hartley},
-  title = {Super-Resolving Very Low-Resolution Face Images with Supplementary Attributes},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2018},
-  year = {2018},
-  url = {http://openaccess.thecvf.com/content_cvpr_2018/papers/Yu_Super-Resolving_Very_Low-Resolution_CVPR_2018_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Aliakbarian2017" class="entry">
 	<td>Aliakbarian, M.S., Saleh, F., Salzmann, M., Fernando, B., Petersson, L. and Andersson, L.</td>
-	<td>Encouraging LSTMs to Anticipate Actions Very Early <p class="infolinks">[<a href="javascript:toggleInfo('Aliakbarian2017','bibtex')">BibTeX</a>]</p></td>
+	<td>Encouraging LSTMs to Anticipate Actions Very Early</td>
 	<td>2017</td>
 	<td>IEEE International Conference on Computer Vision ICCV 2017&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_ICCV_2017/papers/Aliakbarian_Encouraging_LSTMs_to_ICCV_2017_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Aliakbarian2017" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Aliakbarian2017,
-  author = {Mohammad Sadegh Aliakbarian and Fatemehsadat Saleh and Mathieu Salzmann and Basura Fernando and Lars Petersson and Lars Andersson},
-  title = {Encouraging LSTMs to Anticipate Actions Very Early},
-  booktitle = {IEEE International Conference on Computer Vision ICCV 2017},
-  year = {2017},
-  url = {http://openaccess.thecvf.com/content_ICCV_2017/papers/Aliakbarian_Encouraging_LSTMs_to_ICCV_2017_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Anderson2017" class="entry">
 	<td>Anderson, P., Fernando, B., Johnson, M. and Gould, S.</td>
-	<td>Zero-Shot Image Captioning with Constrained Beam Search <p class="infolinks">[<a href="javascript:toggleInfo('Anderson2017','bibtex')">BibTeX</a>]</p></td>
+	<td>Zero-Shot Image Captioning with Constrained Beam Search</td>
 	<td>2017</td>
 	<td>Conference on Empirical Methods in Natural Language Processing (EMNLP)&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://arxiv.org/abs/1612.00576">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Anderson2017" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Anderson2017,
-  author = {Peter Anderson and Basura Fernando and Mark Johnson and Stephen Gould},
-  title = {Zero-Shot Image Captioning with Constrained Beam Search},
-  booktitle = {Conference on Empirical Methods in Natural Language Processing (EMNLP)},
-  year = {2017},
-  url = {https://arxiv.org/abs/1612.00576}
-}
-</pre></td>
-</tr>
 <tr id="Cherian2017" class="entry">
 	<td>Cherian, A., Fernando, B., Harandi, M. and Gould, S.</td>
-	<td>Generalized Rank Pooling for Activity Recognition <p class="infolinks">[<a href="javascript:toggleInfo('Cherian2017','bibtex')">BibTeX</a>]</p></td>
+	<td>Generalized Rank Pooling for Activity Recognition</td>
 	<td>2017</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2017&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_cvpr_2017/papers/Cherian_Generalized_Rank_Pooling_CVPR_2017_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Cherian2017" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Cherian2017,
-  author = {Anoop Cherian and Basura Fernando and Mehrtash Harandi and Stephen Gould},
-  title = {Generalized Rank Pooling for Activity Recognition},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2017},
-  year = {2017},
-  url = {http://openaccess.thecvf.com/content_cvpr_2017/papers/Cherian_Generalized_Rank_Pooling_CVPR_2017_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Cruz2017" class="entry">
 	<td>Cruz, R.S., Fernando, B., Cherian, A. and Gould, S.</td>
-	<td>DeepPermNet: Visual Permutation Learning <p class="infolinks">[<a href="javascript:toggleInfo('Cruz2017','bibtex')">BibTeX</a>]</p></td>
+	<td>DeepPermNet: Visual Permutation Learning</td>
 	<td>2017</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2017&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_cvpr_2017/papers/Santa_Cruz_DeepPermNet_Visual_Permutation_CVPR_2017_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Cruz2017" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Cruz2017,
-  author = {Rodrigo Santa Cruz and Basura Fernando and Anoop Cherian and Stephen Gould},
-  title = {DeepPermNet: Visual Permutation Learning},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2017},
-  year = {2017},
-  url = {http://openaccess.thecvf.com/content_cvpr_2017/papers/Santa_Cruz_DeepPermNet_Visual_Permutation_CVPR_2017_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando_2017_CVPR_Workshops" class="entry">
 	<td>Fernando, B., Shirazi, S. and Gould, S.</td>
-	<td>Unsupervised Human Action Detection by Action Matching <p class="infolinks">[<a href="javascript:toggleInfo('Fernando_2017_CVPR_Workshops','bibtex')">BibTeX</a>]</p></td>
+	<td>Unsupervised Human Action Detection by Action Matching</td>
 	<td>2017</td>
 	<td>The IEEE Conference on Computer Vision and Pattern Recognition (CVPR) Workshops&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_cvpr_2017_workshops/w20/papers/Fernando_Unsupervised_Human_Action_CVPR_2017_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando_2017_CVPR_Workshops" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando_2017_CVPR_Workshops,
-  author = {Fernando, Basura and Shirazi, Sareh and Gould, Stephen},
-  title = {Unsupervised Human Action Detection by Action Matching},
-  booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR) Workshops},
-  year = {2017},
-  url = {http://openaccess.thecvf.com/content_cvpr_2017_workshops/w20/papers/Fernando_Unsupervised_Human_Action_CVPR_2017_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2017" class="entry">
 	<td>Fernando, B., Bilen, H., Gavves, E. and Gould, S.</td>
-	<td>Self-Supervised Video Representation Learning With Odd-One-Out Networks <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2017','bibtex')">BibTeX</a>]</p></td>
+	<td>Self-Supervised Video Representation Learning With Odd-One-Out Networks</td>
 	<td>2017</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2017&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://openaccess.thecvf.com/content_cvpr_2017/papers/Fernando_Self-Supervised_Video_Representation_CVPR_2017_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2017" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2017,
-  author = {Basura Fernando and Hakan Bilen and Efstratios Gavves and Stephen Gould},
-  title = {Self-Supervised Video Representation Learning With Odd-One-Out Networks},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2017},
-  year = {2017},
-  url = {http://openaccess.thecvf.com/content_cvpr_2017/papers/Fernando_Self-Supervised_Video_Representation_CVPR_2017_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Anderson2016" class="entry">
 	<td>Anderson, P., Fernando, B., Johnson, M. and Gould, S.</td>
-	<td>SPICE: Semantic Propositional Image Caption Evaluation <p class="infolinks">[<a href="javascript:toggleInfo('Anderson2016','bibtex')">BibTeX</a>]</p></td>
+	<td>SPICE: Semantic Propositional Image Caption Evaluation</td>
 	<td>2016</td>
 	<td>European Conference of Computer Vision 2016 ( ECCV 16)&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/ECCV2016Anderson.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Anderson2016" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Anderson2016,
-  author = {Peter Anderson and Basura Fernando and Mark Johnson and Stephen Gould},
-  title = {SPICE: Semantic Propositional Image Caption Evaluation},
-  booktitle = {European Conference of Computer Vision 2016 ( ECCV 16)},
-  year = {2016},
-  url = {http://users.cecs.anu.edu.au/&nbsp;basura/papers/ECCV2016Anderson.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Bilen2016" class="entry">
 	<td>Bilen, H., Fernando, B., Gavves, E., Vedaldi, A. and Gould, S.</td>
-	<td>Dynamic Image Networks for Action Recognition <p class="infolinks">[<a href="javascript:toggleInfo('Bilen2016','bibtex')">BibTeX</a>]</p></td>
+	<td>Dynamic Image Networks for Action Recognition</td>
 	<td>2016</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2016&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Bilen_Dynamic_Image_Networks_CVPR_2016_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Bilen2016" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Bilen2016,
-  author = {Hakan Bilen and Basura Fernando and Efstratios Gavves and Andrea Vedaldi and Stephen Gould},
-  title = {Dynamic Image Networks for Action Recognition},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2016},
-  year = {2016},
-  url = {http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Bilen_Dynamic_Image_Networks_CVPR_2016_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2016a" class="entry">
 	<td>Fernando, B., Anderson, P., Hutter, M. and Gould, S.</td>
-	<td>Discriminative Hierarchical Rank Pooling for Activity Recognition <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2016a','bibtex')">BibTeX</a>]</p></td>
+	<td>Discriminative Hierarchical Rank Pooling for Activity Recognition</td>
 	<td>2016</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2016&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Fernando_Discriminative_Hierarchical_Rank_CVPR_2016_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2016a" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2016a,
-  author = {Basura Fernando and Peter Anderson and Marcus Hutter and Stephen Gould},
-  title = {Discriminative Hierarchical Rank Pooling for Activity Recognition},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2016},
-  year = {2016},
-  url = {http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Fernando_Discriminative_Hierarchical_Rank_CVPR_2016_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2016b" class="entry">
 	<td>Fernando, B. and Gould, S.</td>
-	<td>Learning End-to-end Video Classification with Rank-Pooling <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2016b','bibtex')">BibTeX</a>]</p></td>
+	<td>Learning End-to-end Video Classification with Rank-Pooling</td>
 	<td>2016</td>
 	<td>International Conference on Machine Learning ICML 2016&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://www.jmlr.org/proceedings/papers/v48/fernando16.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2016b" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2016b,
-  author = {Basura Fernando and Stephen Gould},
-  title = {Learning End-to-end Video Classification with Rank-Pooling},
-  booktitle = {International Conference on Machine Learning ICML 2016},
-  year = {2016},
-  url = {http://www.jmlr.org/proceedings/papers/v48/fernando16.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2015b" class="entry">
 	<td>Fernando, B., Gavves, E., Oramas, J., Ghodrati, A. and Tuytelaars, T.</td>
-	<td>Modeling video evolution for action recognition <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2015b','bibtex')">BibTeX</a>]</p></td>
+	<td>Modeling video evolution for action recognition</td>
 	<td>2015</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2015&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Fernando_Modeling_Video_Evolution_2015_CVPR_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2015b" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2015b,
-  author = {Fernando, Basura and Gavves, Efstratios and Oramas, Jos&eacute; and Ghodrati, Amir and Tuytelaars, Tinne},
-  title = {Modeling video evolution for action recognition},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2015},
-  year = {2015},
-  url = {http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Fernando_Modeling_Video_Evolution_2015_CVPR_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2015c" class="entry">
 	<td>Fernando, B., Gavves, E., Muselet, D. and Tuytelaars, T.</td>
-	<td>Learning to rank based on subsequences <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2015c','bibtex')">BibTeX</a>]</p></td>
+	<td>Learning to rank based on subsequences</td>
 	<td>2015</td>
 	<td>IEEE International Conference on Computer Vision ICCV 2015&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Fernando_Learning_to_Rank_ICCV_2015_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2015c" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2015c,
-  author = {Fernando, Basura and Gavves, Efstratios and Muselet, Damien and Tuytelaars, Tinne},
-  title = {Learning to rank based on subsequences},
-  booktitle = {IEEE International Conference on Computer Vision ICCV 2015},
-  year = {2015},
-  url = {http://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Fernando_Learning_to_Rank_ICCV_2015_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Jia2015" class="entry">
 	<td>Jia, X., Gavves, S., Fernando, B. and Tuytelaars, T.</td>
-	<td>Guided long-short term memory for image caption generation <p class="infolinks">[<a href="javascript:toggleInfo('Jia2015','bibtex')">BibTeX</a>]</p></td>
+	<td>Guided long-short term memory for image caption generation</td>
 	<td>2015</td>
 	<td>IEEE International Conference on Computer Vision ICCV 2015&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Jia_Guiding_the_Long-Short_ICCV_2015_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Jia2015" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Jia2015,
-  author = {Jia, Xu and Gavves, Stratis and Fernando, Basura and Tuytelaars, Tinne},
-  title = {Guided long-short term memory for image caption generation},
-  booktitle = {IEEE International Conference on Computer Vision ICCV 2015},
-  year = {2015},
-  url = {http://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Jia_Guiding_the_Long-Short_ICCV_2015_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Rematas2015" class="entry">
 	<td>Rematas, K., Fernando, B., Dellaert, F. and Tuytelaars, T.</td>
-	<td>Dataset Fingerprints: Exploring Image Collections Through Data Mining <p class="infolinks">[<a href="javascript:toggleInfo('Rematas2015','bibtex')">BibTeX</a>]</p></td>
+	<td>Dataset Fingerprints: Exploring Image Collections Through Data Mining</td>
 	<td>2015</td>
 	<td>Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition CVPR 2015, pp. 4867-4875&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Rematas_Dataset_Fingerprints_Exploring_2015_CVPR_paper.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Rematas2015" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Rematas2015,
-  author = {Rematas, Konstantinos and Fernando, Basura and Dellaert, Frank and Tuytelaars, Tinne},
-  title = {Dataset Fingerprints: Exploring Image Collections Through Data Mining},
-  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition CVPR 2015},
-  year = {2015},
-  pages = {4867--4875},
-  url = {http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Rematas_Dataset_Fingerprints_Exploring_2015_CVPR_paper.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2014a" class="entry">
 	<td>Fernando, B., Muselet, D., Khan, R. and Tuytelaars, T.</td>
-	<td>Color features for dating historical color images <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2014a','bibtex')">BibTeX</a>]</p></td>
+	<td>Color features for dating historical color images</td>
 	<td>2014</td>
 	<td>IEEE International Conference on Image Processing ICIP 2014&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/ICIP2014.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2014a" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2014a,
-  author = {Fernando, Basura and Muselet, Damien and Khan, Rahat and Tuytelaars, Tinne},
-  title = {Color features for dating historical color images},
-  booktitle = {IEEE International Conference on Image Processing ICIP 2014},
-  year = {2014},
-  url = {http://users.cecs.anu.edu.au/&nbsp;basura/papers/ICIP2014.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Aly2013" class="entry">
 	<td>Aly, R., Arandjelovic, R., Chatfield, K., Douze, M., Fernando, B., Harchaoui, Z., McGuinness, K., O’Conner, N.E., Oneata, D., Parkhi, O.M. and others</td>
-	<td>The AXES submissions at TrecVid 2013 <p class="infolinks">[<a href="javascript:toggleInfo('Aly2013','bibtex')">BibTeX</a>]</p></td>
+	<td>The AXES submissions at TrecVid 2013</td>
 	<td>2013</td>
 	<td>TrecVid&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://hal.inria.fr/docs/00/90/44/04/PDF/axes-tv13-submitted.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Aly2013" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Aly2013,
-  author = {Aly, Robin and Arandjelovic, Relja and Chatfield, Ken and Douze, Matthijs and Fernando, Basura and Harchaoui, Zaid and McGuinness, Kevin and O’Conner, Noel E and Oneata, Dan and Parkhi, Omkar M and others},
-  title = {The AXES submissions at TrecVid 2013},
-  booktitle = {TrecVid},
-  year = {2013},
-  url = {http://hal.inria.fr/docs/00/90/44/04/PDF/axes-tv13-submitted.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Aly2013a" class="entry">
 	<td>Aly, R., Arandjelovic, R., Chatfield, K., Douze, M., Fernando, B., Harchaoui, Z., McGuinness, K., O'Connore, N., Oneata, D., Parkhi, O.M. and others</td>
-	<td>AXES at TRECVid 2013 <p class="infolinks">[<a href="javascript:toggleInfo('Aly2013a','bibtex')">BibTeX</a>]</p></td>
+	<td>AXES at TRECVid 2013</td>
 	<td>2013</td>
 	<td>TRECVid&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://www-nlpir.nist.gov/projects/tvpubs/tv13.papers/axes.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Aly2013a" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Aly2013a,
-  author = {Aly, RBN and Arandjelovic, Relja and Chatfield, Ken and Douze, Matthijs and Fernando, Basura and Harchaoui, Zaid and McGuinness, Kevin and O'Connore, NE and Oneata, Dan and Parkhi, Omkar M and others},
-  title = {AXES at TRECVid 2013},
-  booktitle = {TRECVid},
-  publisher = {NIST},
-  year = {2013},
-  url = {http://www-nlpir.nist.gov/projects/tvpubs/tv13.papers/axes.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2013" class="entry">
 	<td>Fernando, B., Habrard, A., Sebban, M. and Tuytelaars, T.</td>
-	<td>Unsupervised Visual Domain Adaptation Using Subspace Alignment <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2013','bibtex')">BibTeX</a>]</p></td>
+	<td>Unsupervised Visual Domain Adaptation Using Subspace Alignment</td>
 	<td>2013</td>
 	<td>IEEE International Conference on Computer Vision ICCV 2013&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/SA_ICCV_2013.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2013" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2013,
-  author = {Fernando, Basura and Habrard, Amaury and Sebban, Marc and Tuytelaars, Tinne},
-  title = {Unsupervised Visual Domain Adaptation Using Subspace Alignment},
-  booktitle = {IEEE International Conference on Computer Vision ICCV 2013},
-  year = {2013},
-  url = {http://users.cecs.anu.edu.au/&nbsp;basura/papers/SA_ICCV_2013.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2013a" class="entry">
 	<td>Fernando, B. and Tuytelaars, T.</td>
-	<td>Mining Multiple Queries for Image Retrieval: On-the-fly learning of an Object-specific Mid-level Representation <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2013a','bibtex')">BibTeX</a>]</p></td>
+	<td>Mining Multiple Queries for Image Retrieval: On-the-fly learning of an Object-specific Mid-level Representation</td>
 	<td>2013</td>
 	<td>IEEE International Conference on Computer Vision ICCV 2013&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/MQIR_ICCV_2013.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2013a" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2013a,
-  author = {Fernando, Basura and Tuytelaars, Tinne},
-  title = {Mining Multiple Queries for Image Retrieval: On-the-fly learning of an Object-specific Mid-level Representation},
-  booktitle = {IEEE International Conference on Computer Vision ICCV 2013},
-  year = {2013},
-  url = {http://users.cecs.anu.edu.au/&nbsp;basura/papers/MQIR_ICCV_2013.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Gavves2013" class="entry">
 	<td>Gavves, E., Fernando, B., Snoek, C., Smeulders, A. and Tuytelaars, T.</td>
-	<td>Fine-Grained Categorization by Alignments <p class="infolinks">[<a href="javascript:toggleInfo('Gavves2013','bibtex')">BibTeX</a>]</p></td>
+	<td>Fine-Grained Categorization by Alignments</td>
 	<td>2013</td>
 	<td>IEEE International Conference on Computer Vision ICCV 2013&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/FG_ICCV_2013.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Gavves2013" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Gavves2013,
-  author = {Gavves, E and Fernando, B and Snoek, CGM and Smeulders, AWM and Tuytelaars, T},
-  title = {Fine-Grained Categorization by Alignments},
-  booktitle = {IEEE International Conference on Computer Vision ICCV 2013},
-  year = {2013},
-  url = {http://users.cecs.anu.edu.au/&nbsp;basura/papers/FG_ICCV_2013.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Rematas2013" class="entry">
 	<td>Rematas, K., Fernando, B., Tommasi, T. and Tuytelaars, T.</td>
-	<td>Does Evolution cause a Domain Shift? <p class="infolinks">[<a href="javascript:toggleInfo('Rematas2013','bibtex')">BibTeX</a>]</p></td>
+	<td>Does Evolution cause a Domain Shift?</td>
 	<td>2013</td>
 	<td>IEEE International Conference on Computer Vision ICCV 2013 Workshop VisDA&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://homes.esat.kuleuven.be/~krematas/VisDA/main.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Rematas2013" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Rematas2013,
-  author = {Rematas, Konstantinos and Fernando, Basura and Tommasi, Tatiana and Tuytelaars, Tinne},
-  title = {Does Evolution cause a Domain Shift?},
-  booktitle = {IEEE International Conference on Computer Vision ICCV 2013 Workshop VisDA},
-  year = {2013},
-  url = {http://homes.esat.kuleuven.be/&nbsp;krematas/VisDA/main.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Aly2012" class="entry">
 	<td>Aly, R., McGuinness, K., Chen, S., O'Connor, N.E., Chatfield, K., Parkhi, O., Arandjelovic, R., Zisserman, A., Fernando, B., Tuytelaars, T. and others</td>
-	<td>AXES at TRECVID 2012: KIS, INS, and MED <p class="infolinks">[<a href="javascript:toggleInfo('Aly2012','bibtex')">BibTeX</a>]</p></td>
+	<td>AXES at TRECVID 2012: KIS, INS, and MED</td>
 	<td>2012</td>
 	<td>TRECVID&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://doras.dcu.ie/17860/">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Aly2012" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Aly2012,
-  author = {Aly, Robin and McGuinness, Kevin and Chen, Shu and O'Connor, Noel E and Chatfield, Ken and Parkhi, Omkar and Arandjelovic, Relja and Zisserman, Andrew and Fernando, Basura and Tuytelaars, Tinne and others},
-  title = {AXES at TRECVID 2012: KIS, INS, and MED},
-  booktitle = {TRECVID},
-  year = {2012},
-  url = {http://doras.dcu.ie/17860/}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2012a" class="entry">
 	<td>Fernando, B., Fromont, E., Muselet, D. and Sebban, M.</td>
-	<td>Discriminative Feature Fusion for Image Classification <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2012a','bibtex')">BibTeX</a>]</p></td>
+	<td>Discriminative Feature Fusion for Image Classification</td>
 	<td>2012</td>
 	<td>IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2012&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/cvpr_2012_lrrf.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2012a" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2012a,
-  author = {Fernando, Basura and Fromont, Elisa and Muselet, Damien and Sebban, Marc},
-  title = {Discriminative Feature Fusion for Image Classification},
-  booktitle = {IEEE International Conference on Computer Vision and Pattern Recognition CVPR 2012},
-  year = {2012},
-  url = {http://users.cecs.anu.edu.au/&nbsp;basura/papers/cvpr_2012_lrrf.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2012b" class="entry">
 	<td>Fernando, B., Fromont, E. and Tuytelaars, T.</td>
-	<td>Effective Use of Frequent Itemset Mining for Image Classification <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2012b','bibtex')">BibTeX</a>]</p></td>
+	<td>Effective Use of Frequent Itemset Mining for Image Classification</td>
 	<td>2012</td>
 	<td>European Conference of Computer Vision 2012 ( ECCV 12)&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://users.cecs.anu.edu.au/~basura/papers/ECCV_ID10.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2012b" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2012b,
-  author = {Fernando, Basura and Fromont, Elisa and Tuytelaars, Tinne},
-  title = {Effective Use of Frequent Itemset Mining for Image Classification},
-  booktitle = {European Conference of Computer Vision 2012 ( ECCV 12)},
-  year = {2012},
-  url = {http://users.cecs.anu.edu.au/&nbsp;basura/papers/ECCV_ID10.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Moreno2011" class="entry">
 	<td>Moreno, A., Fernando, B., Kani, B., Saha, S. and Karaoglu, S.</td>
-	<td>Color correction: a novel weighted Von Kries model based on memory colors <p class="infolinks">[<a href="javascript:toggleInfo('Moreno2011','bibtex')">BibTeX</a>]</p></td>
+	<td>Color correction: a novel weighted Von Kries model based on memory colors</td>
 	<td>2011</td>
 	<td>Computational Color Imaging, pp. 165-175&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://staff.fnwi.uva.nl/s.karaoglu/ColorCorrection.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Moreno2011" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Moreno2011,
-  author = {Moreno, Alejandro and Fernando, Basura and Kani, Bismillah and Saha, Sajib and Karaoglu, Sezer},
-  title = {Color correction: a novel weighted Von Kries model based on memory colors},
-  booktitle = {Computational Color Imaging},
-  publisher = {Springer Berlin Heidelberg},
-  year = {2011},
-  pages = {165--175},
-  url = {https://staff.fnwi.uva.nl/s.karaoglu/ColorCorrection.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Tremeau2011" class="entry">
 	<td>Tr&eacute;meau, A., Fernando, B., Karaoglu, S. and Muselet, D.</td>
-	<td>Text segmentation in natural images robust to photometric effects <p class="infolinks">[<a href="javascript:toggleInfo('Tremeau2011','bibtex')">BibTeX</a>]</p></td>
+	<td>Text segmentation in natural images robust to photometric effects</td>
 	<td>2011</td>
 	<td>AIC midterm meeting, pp. 86-89&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://hal.archives-ouvertes.fr/ujm-00629475/">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Tremeau2011" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Tremeau2011,
-  author = {Tr&eacute;meau, Alain and Fernando, Basura and Karaoglu, Sezer and Muselet, Damien},
-  title = {Text segmentation in natural images robust to photometric effects},
-  booktitle = {AIC midterm meeting},
-  year = {2011},
-  pages = {86--89},
-  url = {https://hal.archives-ouvertes.fr/ujm-00629475/}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2010" class="entry">
 	<td>Fernando, B., Karaoglu, S. and Tr&eacute;meau, A.</td>
-	<td>Extreme Value Theory Based Text Binarization in Documents and Natural Scenes <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2010','bibtex')">BibTeX</a>]</p></td>
+	<td>Extreme Value Theory Based Text Binarization in Documents and Natural Scenes</td>
 	<td>2010</td>
 	<td>International Conference on Machine Vision&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="http://staff.science.uva.nl/~sezerk/EXTREME.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2010" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2010,
-  author = {Fernando, Basura and Karaoglu, Sezer and Tr&eacute;meau, Alain},
-  title = {Extreme Value Theory Based Text Binarization in Documents and Natural Scenes},
-  booktitle = {International Conference on Machine Vision},
-  year = {2010},
-  url = {http://staff.science.uva.nl/&nbsp;sezerk/EXTREME.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Fernando2010a" class="entry">
 	<td>Fernando, B., Fromont, E., Muselet, D. and Sebban, M.</td>
-	<td>Accurate Visual Word Construction using a Supervised Approach <p class="infolinks">[<a href="javascript:toggleInfo('Fernando2010a','bibtex')">BibTeX</a>]</p></td>
+	<td>Accurate Visual Word Construction using a Supervised Approach</td>
 	<td>2010</td>
 	<td>25th International Conference of Image and Vision Computing New Zealand, New Zealand (2010), pp. 1-7&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://hal.archives-ouvertes.fr/hal-00555639/document">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Fernando2010a" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Fernando2010a,
-  author = {Fernando, Basura and Fromont, Elisa and Muselet, Damien and Sebban, Marc},
-  title = {Accurate Visual Word Construction using a Supervised Approach},
-  booktitle = {25th International Conference of Image and Vision Computing New Zealand, New Zealand (2010)},
-  year = {2010},
-  pages = {1--7},
-  url = {https://hal.archives-ouvertes.fr/hal-00555639/document}
-}
-</pre></td>
-</tr>
 <tr id="Karaoglu2010" class="entry">
 	<td>Karaoglu, S., Fernando, B. and Tr&eacute;meau, A.</td>
-	<td>A novel algorithm for text detection and localization in natural scene images <p class="infolinks">[<a href="javascript:toggleInfo('Karaoglu2010','bibtex')">BibTeX</a>]</p></td>
+	<td>A novel algorithm for text detection and localization in natural scene images</td>
 	<td>2010</td>
 	<td>Digital Image Computing: Techniques and Applications (DICTA), 2010 International Conference on, pp. 635-642&nbsp;</td>
 	<td>inproceedings</td>
 	<td><a href="https://staff.fnwi.uva.nl/s.karaoglu/DICTA.pdf">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Karaoglu2010" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@inproceedings{Karaoglu2010,
-  author = {Karaoglu, Sezer and Fernando, Basura and Tr&eacute;meau, Alain},
-  title = {A novel algorithm for text detection and localization in natural scene images},
-  booktitle = {Digital Image Computing: Techniques and Applications (DICTA), 2010 International Conference on},
-  year = {2010},
-  pages = {635--642},
-  url = {https://staff.fnwi.uva.nl/s.karaoglu/DICTA.pdf}
-}
-</pre></td>
-</tr>
 <tr id="Gould2016a" class="entry">
 	<td>Gould, S., Fernando, B., Cherian, A., Anderson, P., Cruz, R.S. and Guo, E.</td>
-	<td>On Differentiating Parameterized Argmin and Argmax Problems with Application to Bi-level Optimization <p class="infolinks">[<a href="javascript:toggleInfo('Gould2016a','bibtex')">BibTeX</a>]</p></td>
+	<td>On Differentiating Parameterized Argmin and Argmax Problems with Application to Bi-level Optimization</td>
 	<td>2016</td>
 	<td>&nbsp;</td>
 	<td>unpublished</td>
 	<td><a href="http://arxiv.org/abs/1607.05447">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_Gould2016a" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@unpublished{Gould2016a,
-  author = {Stephen Gould and Basura Fernando and Anoop Cherian and Peter Anderson and Rodrigo Santa Cruz and Edison Guo},
-  title = {On Differentiating Parameterized Argmin and Argmax Problems with Application to Bi-level Optimization},
-  year = {2016},
-  note = {arXiv:1607.05447},
-  url = {http://arxiv.org/abs/1607.05447}
-}
-</pre></td>
-</tr>
 <tr id="fernando2014subspace" class="entry">
 	<td>Fernando, B., Habrard, A., Sebban, M. and Tuytelaars, T.</td>
-	<td>Subspace alignment for domain adaptation <p class="infolinks">[<a href="javascript:toggleInfo('fernando2014subspace','bibtex')">BibTeX</a>]</p></td>
+	<td>Subspace alignment for domain adaptation</td>
 	<td>2014</td>
 	<td>&nbsp;</td>
 	<td>unpublished</td>
 	<td><a href="https://arxiv.org/abs/1409.5241">URL</a>&nbsp;</td>
 </tr>
-<tr id="bib_fernando2014subspace" class="bibtex noshow">
-<td colspan="6"><b>BibTeX</b>:
-<pre>
-@unpublished{fernando2014subspace,
-  author = {Fernando, Basura and Habrard, Amaury and Sebban, Marc and Tuytelaars, Tinne},
-  title = {Subspace alignment for domain adaptation},
-  year = {2014},
-  note = {arXiv preprint arXiv:1409.5241},
-  url = {https://arxiv.org/abs/1409.5241}
-}
-</pre></td>
-</tr>
 </tbody>
 </table>
 <footer>
- <small>Created by <a href="http://jabref.sourceforge.net">JabRef</a> on 03/07/2022.</small>
+ <small>Created by <a href="http://jabref.sourceforge.net">JabRef</a> on 15/07/2022.</small>
 </footer>
+
 <!-- file generated by JabRef -->
+
 </body>
 </html>
